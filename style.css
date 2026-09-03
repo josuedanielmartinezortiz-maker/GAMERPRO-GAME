@@ -4,17 +4,18 @@
     padding: 0;
 }
 
+html,
 body {
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
     overflow: hidden;
     font-family: Arial, sans-serif;
     background: #111;
 }
 
 #game {
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -38,4 +39,38 @@ h1 {
 
 #playButton:active {
     transform: scale(0.95);
-  }
+}
+
+/* ============================= */
+/* 🎬 ESCENAS DE LA CINEMÁTICA */
+/* ============================= */
+
+.scene {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.scene img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+}
+
+.dialogo {
+    position: absolute;
+    bottom: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    font-size: clamp(24px, 5vw, 45px);
+    font-weight: bold;
+    text-align: center;
+    text-shadow: 2px 2px 8px black;
+    z-index: 10;
+    }
