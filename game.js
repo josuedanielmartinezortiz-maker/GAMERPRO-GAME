@@ -2,10 +2,9 @@ const playButton = document.getElementById("playButton");
 const game = document.getElementById("game");
 
 playButton.addEventListener("click", () => {
-    game.innerHTML = `
-        <div class="scene">
-            <h2>🌅 AMANECER</h2>
-            <p>Pío pío...</p>
-        </div>
-    `;
-});
+game.innerHTML = `
+    <div class="scene">
+        <img src="IMG-20260903-WA2716.jpg" alt="Amanecer en la granja">
+        <p class="dialogo">Pío pío...</p>
+    </div>
+`;
