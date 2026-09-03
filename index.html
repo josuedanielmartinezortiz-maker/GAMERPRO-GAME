@@ -4,16 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GAMERPRO GAME</title>
+
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <h1>BIENVENIDO</h1>
+    <main id="game">
 
-    <button id="playButton">▶ PLAY</button>
+        <h1>BIENVENIDO</h1>
+
+        <button id="playButton">
+            ▶ PLAY
+        </button>
+
+    </main>
 
     <script>
-        document.getElementById("playButton").addEventListener("click", () => {
+        const playButton = document.getElementById("playButton");
+
+        playButton.addEventListener("click", () => {
             alert("¡Comenzando GAMERPRO!");
         });
     </script>
