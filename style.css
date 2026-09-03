@@ -43,12 +43,13 @@ h1 {
 }
 
 /* ============================= */
-/* 🎬 ESCENAS DE LA CINEMÁTICA */
+/* 🎬 SISTEMA DE ESCENAS */
 /* ============================= */
 
 .scene {
     width: 100vw;
     height: 100vh;
+
     position: relative;
     overflow: hidden;
 
@@ -56,25 +57,25 @@ h1 {
     align-items: center;
     justify-content: center;
 
-    background: #111;
+    /* 🌅 Fondo adaptable */
+    background-image: url("./amanecer.jpg");
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
 }
 
+/* Ocultamos la imagen del HTML porque ahora usamos el fondo */
 .scene img {
-    width: 100%;
-    height: 100%;
-
-    /* Mantiene la imagen completa sin deformarla */
-    object-fit: contain;
-    object-position: center center;
-
-    display: block;
-
-    user-select: none;
-    -webkit-user-drag: none;
+    display: none;
 }
+
+/* ============================= */
+/* 💬 DIÁLOGOS */
+/* ============================= */
 
 .dialogo {
     position: absolute;
+
     bottom: 10%;
     left: 50%;
 
@@ -83,8 +84,10 @@ h1 {
     width: 90%;
 
     color: white;
+
     font-size: clamp(24px, 5vw, 45px);
     font-weight: bold;
+
     text-align: center;
 
     text-shadow:
@@ -92,5 +95,30 @@ h1 {
         0 0 4px black;
 
     z-index: 10;
+
     pointer-events: none;
+}
+
+/* ============================= */
+/* 📱 MODO VERTICAL */
+/* ============================= */
+
+@media (orientation: portrait) {
+
+    .scene {
+        background-position: center center;
+        background-size: cover;
     }
+}
+
+/* ============================= */
+/* 💻📱 MODO HORIZONTAL */
+/* ============================= */
+
+@media (orientation: landscape) {
+
+    .scene {
+        background-position: center center;
+        background-size: cover;
+    }
+}
