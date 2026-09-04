@@ -122,22 +122,35 @@ playButton.addEventListener("click", () => {
 
     let indice = 0;
 
+    // 🎬 Comenzar cinemática
     mostrarEscena(indice);
 
     const intervalo = setInterval(() => {
 
         indice++;
 
+        // 🎬 Mostrar siguiente escena
         if (indice < escenas.length) {
 
             mostrarEscena(indice);
 
         } else {
 
+            // 🛑 Terminar cinemática
             clearInterval(intervalo);
 
+            // 🥚 Esperar antes de revelar el huevo
             setTimeout(() => {
+
                 revelarHuevo();
+
+                // 🐔 Entrar al gallinero después
+                setTimeout(() => {
+
+                    mostrarGallinero();
+
+                }, 3000);
+
             }, 1500);
         }
 
