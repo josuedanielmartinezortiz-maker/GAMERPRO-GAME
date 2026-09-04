@@ -35,7 +35,7 @@ body {
     width: 100%;
     height: 100%;
 
-    object-fit: cover;
+    object-fit: fill;
 
     display: block;
 }
@@ -86,13 +86,15 @@ body {
     background: #111;
 }
 
-/* 🖼️ IMÁGENES */
+/* ============================= */
+/* 🖼️ IMÁGENES DE ESCENAS */
+/* ============================= */
 
 .scene img {
     width: 100%;
     height: 100%;
 
-    object-fit: cover;
+    object-fit: fill;
 
     display: block;
 }
@@ -139,7 +141,7 @@ body {
     }
 
     .scene img {
-        object-fit: cover;
+        object-fit: fill;
     }
 }
 
@@ -155,9 +157,10 @@ body {
     }
 
     .scene img {
-        object-fit: cover;
+        object-fit: fill;
     }
-    }
+}
+
 /* ================================ */
 /* 🐔 GALLINERO */
 /* ================================ */
@@ -181,11 +184,10 @@ body {
     width: 100%;
     height: 100%;
 
-    object-fit: cover;
+    object-fit: fill;
 
     display: block;
 }
-
 
 /* ================================ */
 /* 🪹 NIDOS */
@@ -223,13 +225,12 @@ body {
 
 .nido:hover {
     box-shadow:
-        0 0 10px rgba(255,255,255,0.35);
+        0 0 10px rgba(255, 255, 255, 0.35);
 }
 
 .nido:active {
     transform: scale(0.94);
 }
-
 
 /* ================================ */
 /* 🎨 EDITOR */
@@ -247,7 +248,7 @@ body {
     align-items: center;
     justify-content: center;
 
-    background: rgba(0,0,0,0.65);
+    background: rgba(0, 0, 0, 0.65);
 }
 
 .editor-panel {
@@ -264,7 +265,7 @@ body {
     text-align: center;
 
     box-shadow:
-        0 0 30px rgba(0,0,0,0.7);
+        0 0 30px rgba(0, 0, 0, 0.7);
 }
 
 .editor-panel h2 {
