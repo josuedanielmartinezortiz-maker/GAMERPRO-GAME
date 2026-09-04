@@ -1,6 +1,20 @@
 const game = document.getElementById("game");
 
 // ================================
+// ▶️ HITBOX OFICIAL DEL PLAY
+// ================================
+
+const BIENVENIDO_PLAY_HITBOX = {
+    id: 'play',
+    x: 0.284,
+    y: 0.515,
+    w: 0.267,
+    h: 0.194,
+    center_x: 0.417,
+    center_y: 0.612
+};
+
+// ================================
 // 🎬 ESCENAS
 // ================================
 
@@ -38,6 +52,7 @@ const escenas = [
         dialogo: ""
     }
 ];
+
 // ================================
 // ⚡ PRECARGAR ESCENAS
 // ================================
@@ -51,6 +66,7 @@ function precargarEscenas() {
         const img = new Image();
 
         img.src = escena.imagen;
+
         img.decoding = "async";
 
         imagenesPrecargadas[escena.imagen] = img;
@@ -59,22 +75,31 @@ function precargarEscenas() {
 
 precargarEscenas();
 
+// ================================
+// 🎬 MOSTRAR ESCENA
+// ================================
+
 function mostrarEscena(indice) {
 
     const escena = escenas[indice];
 
+    if (!escena) return;
+
     game.innerHTML = `
         <div class="scene">
+
             <img
                 src="${escena.imagen}"
                 alt="Escena ${indice + 2}"
                 decoding="async"
             >
+
             ${
                 escena.dialogo
-                ? `<div class="dialogo">${escena.dialogo}</div>`
-                : ""
+                    ? `<div class="dialogo">${escena.dialogo}</div>`
+                    : ""
             }
+
         </div>
     `;
 }
@@ -107,7 +132,13 @@ function revelarHuevo() {
 
     game.innerHTML = `
         <div class="scene">
-            <img src="${resultado}" alt="Revelación">
+
+            <img
+                src="${resultado}"
+                alt="Revelación"
+                decoding="async"
+            >
+
         </div>
     `;
 }
@@ -122,29 +153,24 @@ playButton.addEventListener("click", () => {
 
     let indice = 0;
 
-    // 🎬 Comenzar cinemática
     mostrarEscena(indice);
 
     const intervalo = setInterval(() => {
 
         indice++;
 
-        // 🎬 Mostrar siguiente escena
         if (indice < escenas.length) {
 
             mostrarEscena(indice);
 
         } else {
 
-            // 🛑 Terminar cinemática
             clearInterval(intervalo);
 
-            // 🥚 Esperar antes de revelar el huevo
             setTimeout(() => {
 
                 revelarHuevo();
 
-                // 🐔 Entrar al gallinero después
                 setTimeout(() => {
 
                     mostrarGallinero();
@@ -156,11 +182,13 @@ playButton.addEventListener("click", () => {
 
     }, 3000);
 });
+
 // ================================
 // 🐔 GALLINERO — 20 NIDOS
 // ================================
 
 const GALLINERO_20_VACIO = [
+
     {id:1, x:0.193, y:0.156, w:0.071, h:0.128},
     {id:2, x:0.289, y:0.147, w:0.071, h:0.128},
     {id:3, x:0.371, y:0.147, w:0.071, h:0.128},
@@ -186,7 +214,6 @@ const GALLINERO_20_VACIO = [
     {id:20, x:0.737, y:0.735, w:0.071, h:0.128}
 ];
 
-
 // ================================
 // 🐔 MOSTRAR GALLINERO
 // ================================
@@ -200,6 +227,7 @@ function mostrarGallinero() {
                 src="./11.jpg"
                 alt="Gallinero"
                 class="gallinero-fondo"
+                decoding="async"
             >
 
             <div id="nidos"></div>
@@ -208,8 +236,10 @@ function mostrarGallinero() {
     `;
 
     crearNidos();
-}
 
+    // 💾 Restaurar colores guardados
+    cargarNidosGuardados();
+}
 
 // ================================
 // 🪹 CREAR LOS 20 NIDOS
@@ -217,14 +247,20 @@ function mostrarGallinero() {
 
 function crearNidos() {
 
-    const contenedor = document.getElementById("nidos");
+    const contenedor =
+        document.getElementById("nidos");
+
+    if (!contenedor) return;
 
     GALLINERO_20_VACIO.forEach(nido => {
 
-        const boton = document.createElement("button");
+        const boton =
+            document.createElement("button");
 
         boton.type = "button";
+
         boton.className = "nido";
+
         boton.dataset.id = nido.id;
 
         boton.setAttribute(
@@ -232,81 +268,47 @@ function crearNidos() {
             `Nido ${nido.id}`
         );
 
-        boton.style.left = `${nido.x * 100}%`;
-        boton.style.top = `${nido.y * 100}%`;
-        boton.style.width = `${nido.w * 100}%`;
-        boton.style.height = `${nido.h * 100}%`;
+        boton.style.left =
+            `${nido.x * 100}%`;
 
-        boton.addEventListener("click", () => {
+        boton.style.top =
+            `${nido.y * 100}%`;
 
-            abrirEditorNido(nido.id);
+        boton.style.width =
+            `${nido.w * 100}%`;
 
-        });
+        boton.style.height =
+            `${nido.h * 100}%`;
+
+        boton.addEventListener(
+            "click",
+            () => {
+
+                abrirEditorNido(nido.id);
+
+            }
+        );
 
         contenedor.appendChild(boton);
     });
 }
 
+// ================================
+// 🎨 EDITOR REAL DEL NIDO
+// ================================
+
+let nidoEditando = null;
+
+let colorTemporal = null;
 
 // ================================
-// 🎨 EDITOR TEMPORAL DEL NIDO
+// 🪹 ABRIR EDITOR
 // ================================
 
 function abrirEditorNido(id) {
 
-    const colores = [
-        "#ffffff",
-        "#ff4d4d",
-        "#ffd43b",
-        "#4dabf7",
-        "#69db7c",
-        "#b197fc",
-        "#ff922b"
-    ];
-
-    const botones = colores.map(color => `
-        <button
-            type="button"
-            class="color-option"
-            style="background:${color}"
-            onclick="seleccionarColorNido(${id}, '${color}')">
-        </button>
-    `).join("");
-
-    const editor = document.createElement("div");
-
-    editor.id = "editorNido";
-
-    editor.innerHTML = `
-        <div class="editor-panel">
-
-            <h2>🪹 NIDO ${String(id).padStart(2, "0")}</h2>
-
-            <p>Elige un color</p>
-
-            <div class="colores">
-                ${botones}
-            </div>
-
-            <button
-                type="button"
-                class="cerrar-editor"
-                onclick="cerrarEditorNido()">
-                CERRAR
-            </button>
-
-        </div>
-    `;
-
-    document.body.appendChild(editor);
-}
-
-
-// ================================
-// 🎨 SELECCIONAR COLOR
-// ================================
-
-function seleccionarColorNido(id, color) {
+    // Primero cerrar cualquier editor anterior
+    cerrarEditorNido();
 
     const nido = document.querySelector(
         `.nido[data-id="${id}"]`
@@ -314,16 +316,387 @@ function seleccionarColorNido(id, color) {
 
     if (!nido) return;
 
+    nidoEditando = id;
+
+    // Recuperar color actual
+    colorTemporal =
+        nido.dataset.color || "#ffffff";
+
+    const editor =
+        document.createElement("div");
+
+    editor.id = "editorNido";
+
+    editor.innerHTML = `
+
+        <div class="editor-panel">
+
+            <div class="editor-header">
+
+                <div>
+
+                    <span class="editor-icon">
+                        🪹
+                    </span>
+
+                    <div>
+
+                        <h2>
+                            NIDO ${String(id).padStart(2, "0")}
+                        </h2>
+
+                        <p>
+                            Personaliza este nido
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <button
+                    type="button"
+                    class="editor-x"
+                    id="cerrarEditorX"
+                    aria-label="Cerrar editor">
+                    ✕
+                </button>
+
+            </div>
+
+            <div class="editor-preview">
+
+                <div
+                    class="preview-nido"
+                    id="previewNido">
+                    🪹
+                </div>
+
+            </div>
+
+            <div class="editor-section">
+
+                <h3>
+                    🎨 Color del nido
+                </h3>
+
+                <div class="colores">
+
+                    <button
+                        type="button"
+                        class="color-option"
+                        data-color="#ffffff"
+                        style="background:#ffffff"
+                        aria-label="Blanco">
+                    </button>
+
+                    <button
+                        type="button"
+                        class="color-option"
+                        data-color="#ff4d4d"
+                        style="background:#ff4d4d"
+                        aria-label="Rojo">
+                    </button>
+
+                    <button
+                        type="button"
+                        class="color-option"
+                        data-color="#ffd43b"
+                        style="background:#ffd43b"
+                        aria-label="Amarillo">
+                    </button>
+
+                    <button
+                        type="button"
+                        class="color-option"
+                        data-color="#4dabf7"
+                        style="background:#4dabf7"
+                        aria-label="Azul">
+                    </button>
+
+                    <button
+                        type="button"
+                        class="color-option"
+                        data-color="#69db7c"
+                        style="background:#69db7c"
+                        aria-label="Verde">
+                    </button>
+
+                    <button
+                        type="button"
+                        class="color-option"
+                        data-color="#b197fc"
+                        style="background:#b197fc"
+                        aria-label="Morado">
+                    </button>
+
+                    <button
+                        type="button"
+                        class="color-option"
+                        data-color="#ff922b"
+                        style="background:#ff922b"
+                        aria-label="Naranja">
+                    </button>
+
+                </div>
+
+            </div>
+
+            <div class="editor-info">
+
+                <div>
+
+                    <span>🪹</span>
+
+                    <strong>
+                        Nido
+                    </strong>
+
+                    <small>
+                        #${String(id).padStart(2, "0")}
+                    </small>
+
+                </div>
+
+                <div>
+
+                    <span>🔓</span>
+
+                    <strong>
+                        Estado
+                    </strong>
+
+                    <small>
+                        Disponible
+                    </small>
+
+                </div>
+
+            </div>
+
+            <div class="editor-actions">
+
+                <button
+                    type="button"
+                    class="btn-cancelar"
+                    id="cancelarEditor">
+                    CANCELAR
+                </button>
+
+                <button
+                    type="button"
+                    class="btn-guardar"
+                    id="guardarEditor">
+                    💾 GUARDAR
+                </button>
+
+            </div>
+
+        </div>
+    `;
+
+    document.body.appendChild(editor);
+
+    // ================================
+    // 👁️ PREVIEW INICIAL
+    // ================================
+
+    actualizarPreviewNido();
+
+    // ================================
+    // 🎨 COLORES
+    // ================================
+
+    const opcionesColor =
+        editor.querySelectorAll(
+            ".color-option"
+        );
+
+    opcionesColor.forEach(boton => {
+
+        boton.addEventListener(
+            "click",
+            () => {
+
+                colorTemporal =
+                    boton.dataset.color;
+
+                actualizarPreviewNido();
+
+            }
+        );
+    });
+
+    // ================================
+    // 💾 GUARDAR
+    // ================================
+
+    document
+        .getElementById("guardarEditor")
+        .addEventListener(
+            "click",
+            () => {
+
+                guardarNido(
+                    id,
+                    colorTemporal
+                );
+
+            }
+        );
+
+    // ================================
+    // ❌ CANCELAR
+    // ================================
+
+    document
+        .getElementById("cancelarEditor")
+        .addEventListener(
+            "click",
+            () => {
+
+                cerrarEditorNido();
+
+            }
+        );
+
+    // ================================
+    // ❌ X
+    // ================================
+
+    document
+        .getElementById("cerrarEditorX")
+        .addEventListener(
+            "click",
+            () => {
+
+                cerrarEditorNido();
+
+            }
+        );
+
+    // ================================
+    // 🌑 CLIC FUERA DEL PANEL
+    // ================================
+
+    editor.addEventListener(
+        "click",
+        event => {
+
+            if (
+                event.target === editor
+            ) {
+
+                cerrarEditorNido();
+
+            }
+
+        }
+    );
+}
+
+// ================================
+// 👁️ ACTUALIZAR PREVIEW
+// ================================
+
+function actualizarPreviewNido() {
+
+    const preview =
+        document.getElementById(
+            "previewNido"
+        );
+
+    if (!preview) return;
+
+    preview.style.boxShadow = `
+        0 0 15px ${colorTemporal},
+        0 0 30px ${colorTemporal}
+    `;
+}
+
+// ================================
+// 💾 GUARDAR NIDO
+// ================================
+
+function guardarNido(id, color) {
+
+    const nido = document.querySelector(
+        `.nido[data-id="${id}"]`
+    );
+
+    if (!nido) return;
+
+    // Guardar visualmente
+    nido.dataset.color = color;
+
     nido.style.boxShadow = `
         0 0 12px ${color},
         0 0 25px ${color}
     `;
 
-    nido.dataset.color = color;
+    // Guardar configuración
+    localStorage.setItem(
+        `gamerpro_nido_${id}`,
+        JSON.stringify({
+            id: id,
+            color: color
+        })
+    );
 
     cerrarEditorNido();
 }
 
+// ================================
+// 💾 CARGAR NIDOS GUARDADOS
+// ================================
+
+function cargarNidosGuardados() {
+
+    GALLINERO_20_VACIO.forEach(
+        nido => {
+
+            const datos =
+                localStorage.getItem(
+                    `gamerpro_nido_${nido.id}`
+                );
+
+            if (!datos) return;
+
+            try {
+
+                const configuracion =
+                    JSON.parse(datos);
+
+                const elemento =
+                    document.querySelector(
+                        `.nido[data-id="${nido.id}"]`
+                    );
+
+                if (!elemento) return;
+
+                if (
+                    configuracion &&
+                    configuracion.color
+                ) {
+
+                    elemento.dataset.color =
+                        configuracion.color;
+
+                    elemento.style.boxShadow = `
+                        0 0 12px ${configuracion.color},
+                        0 0 25px ${configuracion.color}
+                    `;
+                }
+
+            } catch (error) {
+
+                console.warn(
+                    `No se pudo cargar el nido ${nido.id}`,
+                    error
+                );
+            }
+        }
+    );
+}
 
 // ================================
 // ❌ CERRAR EDITOR
@@ -331,9 +704,18 @@ function seleccionarColorNido(id, color) {
 
 function cerrarEditorNido() {
 
-    const editor = document.getElementById("editorNido");
+    const editor =
+        document.getElementById(
+            "editorNido"
+        );
 
     if (editor) {
+
         editor.remove();
+
     }
-    }
+
+    nidoEditando = null;
+
+    colorTemporal = null;
+                }
