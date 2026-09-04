@@ -1,4 +1,3 @@
-const playButton = document.getElementById("playButton");
 const game = document.getElementById("game");
 
 // ================================
@@ -72,17 +71,17 @@ function revelarHuevo() {
 
     if (numero < 98) {
 
-        // 🧟 PRUEBA — 98%
-        resultado = "./10.1.jpg";
+        // 🐔 POLLO NOOB — 98%
+        resultado = "./10.jpg";
 
     } else if (numero < 99) {
 
-        // 🐔 PRUEBA — 1%
-        resultado = "./10.jpg";
+        // 🧟 POLLO ZOMBIE — 1%
+        resultado = "./10.1.jpg";
 
     } else {
 
-        // 🐤 PRUEBA — 1%
+        // 🐤 POLLITO NOOB — 1%
         resultado = "./10.3.jpg";
     }
 
@@ -94,9 +93,12 @@ function revelarHuevo() {
 }
 
 // ================================
-// ▶️ PLAY
+// ▶️ PLAY — IMAGEN 1.jpg
 // ================================
-playButton.addEventListener("click", () => {
+
+const inicio = document.getElementById("inicio");
+
+inicio.addEventListener("click", () => {
 
     let indice = 0;
 
@@ -114,8 +116,6 @@ playButton.addEventListener("click", () => {
 
             clearInterval(intervalo);
 
-            // 🥚 Después de las escenas 2–9
-            // hacemos la revelación.
             setTimeout(() => {
                 revelarHuevo();
             }, 1500);
