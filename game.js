@@ -116,13 +116,17 @@ playButton.addEventListener("click", () => {
 
             clearInterval(intervalo);
 
-            setTimeout(() => {
-                revelarHuevo();
-            }, 1500);
-        }
+setTimeout(() => {
 
+    revelarHuevo();
+
+    // 🐔 Después de mostrar el resultado,
+    // entrar al gallinero
+    setTimeout(() => {
+        mostrarGallinero();
     }, 3000);
-});
+
+}, 1500);
 // ================================
 // 🐔 GALLINERO — 20 NIDOS
 // ================================
