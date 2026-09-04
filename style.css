@@ -158,3 +158,164 @@ body {
         object-fit: cover;
     }
     }
+/* ================================ */
+/* 🐔 GALLINERO */
+/* ================================ */
+
+.gallinero {
+    position: relative;
+
+    width: 100vw;
+    height: 100vh;
+
+    overflow: hidden;
+
+    background: #111;
+}
+
+.gallinero-fondo {
+    position: absolute;
+
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    display: block;
+}
+
+
+/* ================================ */
+/* 🪹 NIDOS */
+/* ================================ */
+
+#nidos {
+    position: absolute;
+
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    z-index: 5;
+
+    pointer-events: none;
+}
+
+.nido {
+    position: absolute;
+
+    border: none;
+    background: transparent;
+
+    cursor: pointer;
+
+    pointer-events: auto;
+
+    transition:
+        box-shadow 0.2s ease,
+        transform 0.15s ease;
+
+    touch-action: manipulation;
+}
+
+.nido:hover {
+    box-shadow:
+        0 0 10px rgba(255,255,255,0.35);
+}
+
+.nido:active {
+    transform: scale(0.94);
+}
+
+
+/* ================================ */
+/* 🎨 EDITOR */
+/* ================================ */
+
+#editorNido {
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 100;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(0,0,0,0.65);
+}
+
+.editor-panel {
+    width: min(90vw, 420px);
+
+    padding: 25px;
+
+    border-radius: 20px;
+
+    background: #171717;
+
+    color: white;
+
+    text-align: center;
+
+    box-shadow:
+        0 0 30px rgba(0,0,0,0.7);
+}
+
+.editor-panel h2 {
+    margin-bottom: 10px;
+}
+
+.editor-panel p {
+    margin-bottom: 20px;
+}
+
+.colores {
+    display: flex;
+
+    justify-content: center;
+
+    flex-wrap: wrap;
+
+    gap: 14px;
+
+    margin-bottom: 25px;
+}
+
+.color-option {
+    width: 55px;
+    height: 55px;
+
+    border: 3px solid white;
+
+    border-radius: 50%;
+
+    cursor: pointer;
+
+    touch-action: manipulation;
+}
+
+.color-option:active {
+    transform: scale(0.9);
+}
+
+.cerrar-editor {
+    padding: 12px 25px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    background: #333;
+
+    color: white;
+
+    font-weight: bold;
+
+    cursor: pointer;
+    }
