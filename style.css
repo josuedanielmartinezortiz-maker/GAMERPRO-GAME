@@ -20,8 +20,11 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 35px;
 }
+
+/* ============================= */
+/* ▶️ PANTALLA DE INICIO */
+/* ============================= */
 
 h1 {
     color: white;
@@ -57,16 +60,18 @@ h1 {
     align-items: center;
     justify-content: center;
 
-    /* 🌅 Fondo adaptable */
-    background-image: url("./amanecer.jpg");
-    background-size: cover;
-    background-position: center center;
-    background-repeat: no-repeat;
+    background: #111;
 }
 
-/* Ocultamos la imagen del HTML porque ahora usamos el fondo */
+/* 🖼️ IMÁGENES DE LAS ESCENAS */
+
 .scene img {
-    display: none;
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    display: block;
 }
 
 /* ============================= */
@@ -106,19 +111,27 @@ h1 {
 @media (orientation: portrait) {
 
     .scene {
-        background-position: center center;
-        background-size: cover;
+        width: 100vw;
+        height: 100vh;
+    }
+
+    .scene img {
+        object-fit: cover;
     }
 }
 
 /* ============================= */
-/* 💻📱 MODO HORIZONTAL */
+/* 💻 MODO HORIZONTAL */
 /* ============================= */
 
 @media (orientation: landscape) {
 
     .scene {
-        background-position: center center;
-        background-size: cover;
+        width: 100vw;
+        height: 100vh;
+    }
+
+    .scene img {
+        object-fit: cover;
     }
 }
