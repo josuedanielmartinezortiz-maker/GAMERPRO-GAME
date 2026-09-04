@@ -38,10 +38,26 @@ const escenas = [
         dialogo: ""
     }
 ];
+// ================================
+// ⚡ PRECARGAR ESCENAS
+// ================================
 
-// ================================
-// 🎮 MOSTRAR ESCENA
-// ================================
+const imagenesPrecargadas = {};
+
+function precargarEscenas() {
+
+    escenas.forEach(escena => {
+
+        const img = new Image();
+
+        img.src = escena.imagen;
+        img.decoding = "async";
+
+        imagenesPrecargadas[escena.imagen] = img;
+    });
+}
+
+precargarEscenas();
 
 function mostrarEscena(indice) {
 
@@ -49,7 +65,11 @@ function mostrarEscena(indice) {
 
     game.innerHTML = `
         <div class="scene">
-            <img src="${escena.imagen}" alt="Escena ${indice + 2}">
+            <img
+                src="${escena.imagen}"
+                alt="Escena ${indice + 2}"
+                decoding="async"
+            >
             ${
                 escena.dialogo
                 ? `<div class="dialogo">${escena.dialogo}</div>`
