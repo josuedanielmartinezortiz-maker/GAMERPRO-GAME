@@ -7,35 +7,35 @@ const game = document.getElementById("game");
 
 const escenas = [
     {
-        imagen: "./2.png",
+        imagen: "./2.jpg",
         dialogo: "Pío pío..."
     },
     {
-        imagen: "./3.png",
+        imagen: "./3.jpg",
         dialogo: "Pío pío, ¿qué es eso?"
     },
     {
-        imagen: "./4.png",
+        imagen: "./4.jpg",
         dialogo: ""
     },
     {
-        imagen: "./5.png",
+        imagen: "./5.jpg",
         dialogo: "¿Y ahora qué hacemos con esto?"
     },
     {
-        imagen: "./6.png",
+        imagen: "./6.jpg",
         dialogo: "Tal vez debería abrirlo..."
     },
     {
-        imagen: "./7.png",
+        imagen: "./7.jpg",
         dialogo: "¡Está pasando algo!"
     },
     {
-        imagen: "./8.png",
+        imagen: "./8.jpg",
         dialogo: ""
     },
     {
-        imagen: "./9.png",
+        imagen: "./9.jpg",
         dialogo: ""
     }
 ];
@@ -73,17 +73,17 @@ function revelarHuevo() {
     if (numero < 98) {
 
         // 🐔 98%
-        resultado = "./10.png";
+        resultado = "./10.jpg";
 
     } else if (numero < 99) {
 
         // 🧟 1%
-        resultado = "./10.1.png";
+        resultado = "./10.1.jpg";
 
     } else {
 
         // 🐤 1%
-        resultado = "./10.3.png";
+        resultado = "./10.3.jpg";
     }
 
     game.innerHTML = `
