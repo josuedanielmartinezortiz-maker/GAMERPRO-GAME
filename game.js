@@ -117,17 +117,7 @@ playButton.addEventListener("click", () => {
             clearInterval(intervalo);
 
             setTimeout(() => {
-
                 revelarHuevo();
-
-                // 🐔 Después de mostrar el resultado,
-                // entrar al gallinero
-                setTimeout(() => {
-
-                    mostrarGallinero();
-
-                }, 3000);
-
             }, 1500);
         }
 
