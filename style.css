@@ -15,6 +15,10 @@ body {
     background: #111;
 }
 
+body {
+    touch-action: none;
+}
+
 #game {
     width: 100vw;
     height: 100vh;
@@ -40,7 +44,9 @@ body {
     object-fit: fill;
 
     display: block;
-        }/* ============================= */
+}
+
+/* ============================= */
 /* ▶️ BOTÓN PLAY */
 /* ============================= */
 
@@ -66,8 +72,9 @@ body {
 #playButton:active {
     transform: scale(0.95);
 }
+
 /* ============================= */
-/* 🎬 SISTEMA DE ESCENAS */
+/* 🎬 ESCENAS */
 /* ============================= */
 
 .scene {
@@ -85,10 +92,6 @@ body {
 
     background: #111;
 }
-
-/* ============================= */
-/* 🖼️ IMÁGENES DE ESCENAS */
-/* ============================= */
 
 .scene img {
     width: 100%;
@@ -131,40 +134,293 @@ body {
 }
 
 /* ============================= */
-/* 📱 VERTICAL */
+/* 👤 SELECCIÓN DE PERSONAJE */
 /* ============================= */
 
-@media (orientation: portrait) {
+#seleccionPersonaje {
+    position: fixed;
 
-    .scene {
-        width: 100vw;
-        height: 100vh;
-    }
+    inset: 0;
 
-    .scene img {
-        object-fit: fill;
-    }
+    z-index: 900;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(80, 80, 80, 0.28),
+            rgba(0, 0, 0, 0.94)
+        );
+}
+
+.selector-panel {
+    width: min(94vw, 850px);
+
+    padding: 28px;
+
+    border-radius: 28px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #242424,
+            #101010
+        );
+
+    color: white;
+
+    border:
+        1px solid rgba(255, 255, 255, 0.12);
+
+    box-shadow:
+        0 25px 80px rgba(0, 0, 0, 0.8);
+
+    text-align: center;
+}
+
+.selector-panel h1 {
+    font-size: clamp(28px, 5vw, 46px);
+
+    margin-bottom: 8px;
+}
+
+.selector-panel > p {
+    color: #aaa;
+
+    font-size: 16px;
+
+    margin-bottom: 25px;
+}
+
+.personajes-opciones {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 20px;
+}
+
+.personaje-opcion {
+    position: relative;
+
+    min-height: 360px;
+
+    padding: 18px;
+
+    border: 2px solid rgba(255, 255, 255, 0.1);
+
+    border-radius: 22px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #303030,
+            #181818
+        );
+
+    color: white;
+
+    cursor: pointer;
+
+    overflow: hidden;
+
+    transition:
+        transform 0.18s ease,
+        border-color 0.18s ease,
+        box-shadow 0.18s ease;
+}
+
+.personaje-opcion:hover {
+    transform: translateY(-5px);
+
+    border-color:
+        rgba(255, 255, 255, 0.5);
+
+    box-shadow:
+        0 15px 35px rgba(0, 0, 0, 0.5);
+}
+
+.personaje-opcion:active {
+    transform: scale(0.97);
+}
+
+.personaje-opcion img {
+    width: 100%;
+    height: 275px;
+
+    object-fit: contain;
+
+    display: block;
+}
+
+.personaje-opcion strong {
+    display: block;
+
+    margin-top: 8px;
+
+    font-size: 21px;
+}
+
+.personaje-opcion small {
+    display: block;
+
+    margin-top: 4px;
+
+    color: #999;
 }
 
 /* ============================= */
-/* 💻 HORIZONTAL */
+/* 🌾 MUNDO 3D */
 /* ============================= */
 
-@media (orientation: landscape) {
+#mundo3D {
+    position: fixed;
 
-    .scene {
-        width: 100vw;
-        height: 100vh;
-    }
+    inset: 0;
 
-    .scene img {
-        object-fit: fill;
-    }
+    overflow: hidden;
+
+    background: #87ceeb;
 }
 
-/* ================================ */
+#mundo3D canvas {
+    position: absolute;
+
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    touch-action: none;
+}
+
+/* ============================= */
+/* 🧭 HUD */
+/* ============================= */
+
+#hudGranja {
+    position: absolute;
+
+    top: 16px;
+    left: 16px;
+
+    z-index: 50;
+
+    padding: 12px 16px;
+
+    border-radius: 14px;
+
+    background:
+        rgba(0, 0, 0, 0.55);
+
+    color: white;
+
+    backdrop-filter: blur(6px);
+
+    pointer-events: none;
+}
+
+#hudGranja strong {
+    display: block;
+
+    font-size: 17px;
+}
+
+#hudGranja small {
+    color: #ccc;
+
+    font-size: 12px;
+}
+
+/* ============================= */
+/* 🎮 CONTROLES MÓVILES */
+/* ============================= */
+
+#controlesMoviles {
+    position: absolute;
+
+    left: 20px;
+    bottom: 20px;
+
+    z-index: 100;
+
+    width: 150px;
+    height: 150px;
+
+    display: none;
+}
+
+.dpad {
+    position: relative;
+
+    width: 100%;
+    height: 100%;
+}
+
+.dpad button {
+    position: absolute;
+
+    width: 48px;
+    height: 48px;
+
+    border: none;
+
+    border-radius: 14px;
+
+    background:
+        rgba(0, 0, 0, 0.65);
+
+    color: white;
+
+    font-size: 22px;
+
+    font-weight: bold;
+
+    user-select: none;
+
+    -webkit-user-select: none;
+
+    touch-action: none;
+}
+
+.dpad button:active {
+    background:
+        rgba(255, 255, 255, 0.25);
+
+    transform: scale(0.92);
+}
+
+#moveUp {
+    left: 51px;
+    top: 0;
+}
+
+#moveLeft {
+    left: 0;
+    top: 51px;
+}
+
+#moveDown {
+    left: 51px;
+    top: 102px;
+}
+
+#moveRight {
+    right: 0;
+    top: 51px;
+}
+
+/* ============================= */
 /* 🐔 GALLINERO */
-/* ================================ */
+/* ============================= */
 
 .gallinero {
     position: relative;
@@ -190,9 +446,9 @@ body {
     display: block;
 }
 
-/* ================================ */
+/* ============================= */
 /* 🪹 NIDOS */
-/* ================================ */
+/* ============================= */
 
 #nidos {
     position: absolute;
@@ -547,9 +803,32 @@ body {
     color: #111;
 }
 
-/* ================================ */
+/* ============================= */
 /* 📱 MÓVIL */
-/* ================================ */
+/* ============================= */
+
+@media (max-width: 700px) {
+
+    .personajes-opciones {
+        grid-template-columns: 1fr;
+    }
+
+    .personaje-opcion {
+        min-height: 250px;
+    }
+
+    .personaje-opcion img {
+        height: 170px;
+    }
+
+    #controlesMoviles {
+        display: block;
+    }
+
+    .selector-panel {
+        padding: 20px;
+    }
+}
 
 @media (max-width: 500px) {
 
@@ -571,4 +850,4 @@ body {
         width: 44px;
         height: 44px;
     }
-    }
+}
