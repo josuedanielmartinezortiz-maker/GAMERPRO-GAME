@@ -41,7 +41,6 @@ body {
 
     display: block;
 }
-
 /* ============================= */
 /* ▶️ BOTÓN PLAY */
 /* ============================= */
@@ -49,16 +48,7 @@ body {
 #playButton {
     position: absolute;
 
-    left: 50%;
-    bottom: 8%;
-
-    transform: translateX(-50%);
-
-    width: 260px;
-    height: 100px;
-
     background: transparent;
-
     border: none;
 
     cursor: pointer;
@@ -69,7 +59,7 @@ body {
 }
 
 #playButton:active {
-    transform: translateX(-50%) scale(0.95);
+    transform: scale(0.95);
 }
 
 /* ============================= */
