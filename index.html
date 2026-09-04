@@ -2,7 +2,6 @@
 <html lang="es">
 
 <head>
-
     <meta charset="UTF-8">
 
     <meta
@@ -25,14 +24,15 @@
         }
     }
     </script>
-
 </head>
 
 <body>
 
     <main id="game">
 
-        <!-- INICIO -->
+        <!-- ============================= -->
+        <!-- 🎬 INICIO -->
+        <!-- ============================= -->
 
         <div id="inicio">
 
@@ -41,6 +41,7 @@
                 alt="GAMERPRO GAME"
             >
 
+            <!-- ⚠️ NO CAMBIAR POSICIÓN -->
             <button
                 id="playButton"
                 type="button"
@@ -50,82 +51,31 @@
         </div>
 
 
-        <!-- MUNDO 3D -->
+        <!-- ============================= -->
+        <!-- 🌎 MUNDO 3D -->
+        <!-- ============================= -->
 
         <div
             id="mundo3D"
-            style="display:none;"
+            style="display: none;"
         ></div>
 
 
-        <!-- GALLINERO -->
+        <!-- ============================= -->
+        <!-- 🐔 GALLINERO -->
+        <!-- ============================= -->
 
         <div
             id="gallinero"
-            style="display:none;"
+            style="display: none;"
         ></div>
-
-
-        <!-- EDITOR DEL NIDO -->
-
-        <div
-            id="editorNido"
-        >
-
-            <button
-                type="button"
-                onclick="cerrarEditorNido()"
-            >
-                ✕
-            </button>
-
-            <h2>🥚 Nido</h2>
-
-            <div class="colores-nido">
-
-                <button
-                    type="button"
-                    onclick="cambiarColorNido('#ffffff')"
-                >
-                    ⚪
-                </button>
-
-                <button
-                    type="button"
-                    onclick="cambiarColorNido('#ffd700')"
-                >
-                    🟡
-                </button>
-
-                <button
-                    type="button"
-                    onclick="cambiarColorNido('#00aaff')"
-                >
-                    🔵
-                </button>
-
-                <button
-                    type="button"
-                    onclick="cambiarColorNido('#ff4444')"
-                >
-                    🔴
-                </button>
-
-                <button
-                    type="button"
-                    onclick="cambiarColorNido('#55dd55')"
-                >
-                    🟢
-                </button>
-
-            </div>
-
-        </div>
 
     </main>
 
 
-    <!-- GAME.JS -->
+    <!-- ============================= -->
+    <!-- 🎮 GAME.JS -->
+    <!-- ============================= -->
 
     <script
         type="module"
