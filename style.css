@@ -40,13 +40,18 @@ body {
     object-fit: fill;
 
     display: block;
-}
-/* ============================= */
+        }/* ============================= */
 /* ▶️ BOTÓN PLAY */
 /* ============================= */
 
 #playButton {
     position: absolute;
+
+    left: 28.4%;
+    top: 51.5%;
+
+    width: 26.7%;
+    height: 19.4%;
 
     background: transparent;
     border: none;
@@ -61,7 +66,6 @@ body {
 #playButton:active {
     transform: scale(0.95);
 }
-
 /* ============================= */
 /* 🎬 SISTEMA DE ESCENAS */
 /* ============================= */
