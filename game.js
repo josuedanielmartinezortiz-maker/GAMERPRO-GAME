@@ -13,15 +13,6 @@ const BIENVENIDO_PLAY_HITBOX = {
     center_x: 0.417,
     center_y: 0.612
 };
-const playButton = document.getElementById("playButton");
-
-if (playButton) {
-    playButton.style.left = `${BIENVENIDO_PLAY_HITBOX.x * 100}%`;
-    playButton.style.top = `${BIENVENIDO_PLAY_HITBOX.y * 100}%`;
-    playButton.style.width = `${BIENVENIDO_PLAY_HITBOX.w * 100}%`;
-    playButton.style.height = `${BIENVENIDO_PLAY_HITBOX.h * 100}%`;
-}
-
 // ================================
 // 🎬 ESCENAS
 // ================================
