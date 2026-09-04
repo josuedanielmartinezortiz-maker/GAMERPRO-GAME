@@ -67,25 +67,24 @@ function mostrarEscena(indice) {
 function revelarHuevo() {
 
     const numero = Math.random() * 100;
-const numero = Math.random() * 100;
 
-let resultado;
+    let resultado;
 
-if (numero < 98) {
+    if (numero < 98) {
 
-    // 🧟 PRUEBA — 98%
-    resultado = "./10.1.jpg";
+        // 🧟 PRUEBA — 98%
+        resultado = "./10.1.jpg";
 
-} else if (numero < 99) {
+    } else if (numero < 99) {
 
-    // 🐔 PRUEBA — 1%
-    resultado = "./10.jpg";
+        // 🐔 PRUEBA — 1%
+        resultado = "./10.jpg";
 
-} else {
+    } else {
 
-    // 🐤 PRUEBA — 1%
-    resultado = "./10.3.jpg";
-}
+        // 🐤 PRUEBA — 1%
+        resultado = "./10.3.jpg";
+    }
 
     game.innerHTML = `
         <div class="scene">
@@ -97,7 +96,6 @@ if (numero < 98) {
 // ================================
 // ▶️ PLAY
 // ================================
-
 playButton.addEventListener("click", () => {
 
     let indice = 0;
