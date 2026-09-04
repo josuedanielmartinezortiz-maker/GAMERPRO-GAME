@@ -93,12 +93,12 @@ function revelarHuevo() {
 }
 
 // ================================
-// ▶️ PLAY — IMAGEN 1.jpg
+// ▶️ PLAY
 // ================================
 
-const inicio = document.getElementById("inicio");
+const playButton = document.getElementById("playButton");
 
-inicio.addEventListener("click", () => {
+playButton.addEventListener("click", () => {
 
     let indice = 0;
 
