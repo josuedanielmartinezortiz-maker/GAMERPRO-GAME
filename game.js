@@ -208,36 +208,62 @@ function mostrarEscena(indice) {
 
 function revelarHuevo() {
 
-    const numero =
-        Math.random() * 100;
+    const numero = Math.random() * 100;
 
     let resultado;
 
     if (numero < 98) {
-
         resultado = "./10.jpg";
-
     } else if (numero < 99) {
-
         resultado = "./10.1.jpg";
-
     } else {
-
         resultado = "./10.3.jpg";
     }
 
-    game.innerHTML = `
+    let escena =
+        document.getElementById("cinematico");
 
+    if (!escena) {
+
+        escena = document.createElement("div");
+
+        escena.id = "cinematico";
+
+        game.appendChild(escena);
+    }
+
+    escena.innerHTML = `
         <div class="scene">
-
             <img
                 src="${resultado}"
                 alt="Revelación"
                 decoding="async"
             >
-
         </div>
     `;
+
+    escena.style.display = "block";
+
+    const inicio =
+        document.getElementById("inicio");
+
+    const mundo =
+        document.getElementById("mundo3D");
+
+    const gallinero =
+        document.getElementById("gallinero");
+
+    if (inicio) {
+        inicio.style.display = "none";
+    }
+
+    if (mundo) {
+        mundo.style.display = "none";
+    }
+
+    if (gallinero) {
+        gallinero.style.display = "none";
+    }
 }
 
 // =====================================================
@@ -411,24 +437,23 @@ function seleccionarPersonaje(genero) {
         JSON.stringify(jugador)
     );
 
-    console.log(
-        "✅ Personaje seleccionado:",
-        genero
+console.log(
+    "✅ Personaje seleccionado:",
+    genero
+);
+
+// Quitar selección
+const seleccion =
+    document.getElementById(
+        "seleccionPersonaje"
     );
 
-    // Quitar selección
-    const seleccion =
-        document.getElementById(
-            "seleccionPersonaje"
-        );
-
-    if (seleccion) {
-        seleccion.remove();
-    }
-
-    // Entrar a la granja
-    iniciarZonaGranja();
+if (seleccion) {
+    seleccion.remove();
 }
+
+// Entrar al gallinero inicial (11.jpg)
+mostrarGallinero();
 // =====================================================
 // 💾 CARGAR PERSONAJE
 // =====================================================
