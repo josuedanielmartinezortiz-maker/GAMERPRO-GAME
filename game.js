@@ -3,7 +3,23 @@ import * as THREE from "three";
 const game =
     document.getElementById("game");
 
+// =====================================================
+// ▶️ BOTÓN PLAY
+// =====================================================
 
+const playButton = document.getElementById("playButton");
+
+if (playButton) {
+
+    playButton.addEventListener("click", () => {
+
+        console.log("▶️ PLAY PRESIONADO");
+
+        iniciarSecuencia();
+
+    });
+
+}
 // =====================================================
 // ▶️ PLAY
 // =====================================================
@@ -386,7 +402,29 @@ function mostrarEscena(
 
 }
 
+// =====================================================
+// ▶️ INICIAR JUEGO / SECUENCIA
+// =====================================================
 
+let escenaActual = 0;
+
+function iniciarSecuencia() {
+
+    if (secuenciaIniciada) {
+        return;
+    }
+
+    secuenciaIniciada = true;
+    escenaActual = 0;
+
+    const inicio = document.getElementById("inicio");
+
+    if (inicio) {
+        inicio.style.display = "none";
+    }
+
+    mostrarEscena(escenaActual);
+            }
 // =====================================================
 // 🥚 REVELAR HUEVO
 // =====================================================
