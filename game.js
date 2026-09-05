@@ -1,64 +1,84 @@
 import * as THREE from "three";
 
-const game = document.getElementById("game");
+const game =
+    document.getElementById("game");
 
-// ================================
+// =====================================================
 // ▶️ HITBOX OFICIAL DEL PLAY
-// ================================
+// =====================================================
 
 const BIENVENIDO_PLAY_HITBOX = {
+
     id: "play",
+
     x: 0.284,
     y: 0.515,
+
     w: 0.267,
     h: 0.194,
+
     center_x: 0.417,
     center_y: 0.612
 };
 
-// ================================
+// =====================================================
 // 👤 JUGADOR
-// ================================
+// =====================================================
 
 let jugadorSeleccionado = null;
 
 let jugador = {
+
     genero: null,
+
     imagen: null,
+
     spritesheet: null
 };
 
-// ================================
-// 🌎 ESTADO DE ZONA
-// ================================
+// =====================================================
+// 🌎 ZONAS
+// =====================================================
 
 const ZONAS = {
 
     granja: {
+
         id: "granja",
+
         nombre: "Granja",
+
         imagen: "./Granja.jpg",
+
         desbloqueada: true
     },
 
     bosque: {
+
         id: "bosque",
+
         nombre: "Bosque",
+
         imagen: "./Bosque.jpg",
+
         desbloqueada: false
     },
 
     pesca: {
+
         id: "pesca",
+
         nombre: "Pesca",
+
         imagen: "./Pesca.jpg",
+
         desbloqueada: false
     }
 };
 
-// ================================
+// =====================================================
 // 🎬 ESCENAS
-// ================================
+// =====================================================
 
 const escenas = [
 
@@ -103,28 +123,19 @@ const escenas = [
     }
 ];
 
-// ================================
-// ⚡ PRECARGAR ESCENAS
-// ================================
+// =====================================================
+// ⚡ PRECARGA
+// =====================================================
 
 const imagenesPrecargadas = {};
 
 function precargarEscenas() {
 
-    escenas.forEach(escena => {
+    const recursos = [
 
-        const img = new Image();
-
-        img.src = escena.imagen;
-
-        img.decoding = "async";
-
-        imagenesPrecargadas[
-            escena.imagen
-        ] = img;
-    });
-
-    [
+        ...escenas.map(
+            escena => escena.imagen
+        ),
 
         "./10.jpg",
         "./10.1.jpg",
@@ -138,8 +149,9 @@ function precargarEscenas() {
 
         "./mono_N_boy_spritesheet.png",
         "./mono_N_girl_spritesheet.png"
+    ];
 
-    ].forEach(src => {
+    recursos.forEach(src => {
 
         const img = new Image();
 
@@ -153,16 +165,18 @@ function precargarEscenas() {
 
 precargarEscenas();
 
-// ================================
+// =====================================================
 // 🎬 MOSTRAR ESCENA
-// ================================
+// =====================================================
 
 function mostrarEscena(indice) {
 
-    const escena = escenas[indice];
+    const escena =
+        escenas[indice];
 
-    if (!escena)
+    if (!escena) {
         return;
+    }
 
     game.innerHTML = `
 
@@ -188,9 +202,9 @@ function mostrarEscena(indice) {
     `;
 }
 
-// ================================
-// 🥚 RESULTADO DEL HUEVO
-// ================================
+// =====================================================
+// 🥚 REVELAR HUEVO
+// =====================================================
 
 function revelarHuevo() {
 
@@ -226,9 +240,9 @@ function revelarHuevo() {
     `;
 }
 
-// ================================
+// =====================================================
 // 👤 SELECCIÓN DE PERSONAJE
-// ================================
+// =====================================================
 
 function mostrarSeleccionPersonaje() {
 
@@ -243,7 +257,8 @@ function mostrarSeleccionPersonaje() {
                 </h1>
 
                 <p>
-                    Selecciona quién quieres usar en tu granja.
+                    Selecciona quién quieres usar
+                    en tu granja.
                 </p>
 
                 <div class="personajes-opciones">
@@ -251,11 +266,13 @@ function mostrarSeleccionPersonaje() {
                     <button
                         type="button"
                         class="personaje-opcion"
-                        data-genero="hombre">
+                        data-genero="hombre"
+                    >
 
                         <img
                             src="./hombre.jpg"
                             alt="Personaje hombre"
+                            decoding="async"
                         >
 
                         <strong>
@@ -271,11 +288,13 @@ function mostrarSeleccionPersonaje() {
                     <button
                         type="button"
                         class="personaje-opcion"
-                        data-genero="mujer">
+                        data-genero="mujer"
+                    >
 
                         <img
                             src="./mujer.jpg"
                             alt="Personaje mujer"
+                            decoding="async"
                         >
 
                         <strong>
@@ -306,47 +325,43 @@ function mostrarSeleccionPersonaje() {
             "click",
             () => {
 
-                const genero =
-                    opcion.dataset.genero;
-
                 seleccionarPersonaje(
-                    genero
+                    opcion.dataset.genero
                 );
+
             }
         );
     });
 }
 
-// ================================
+// =====================================================
 // 👤 SELECCIONAR PERSONAJE
-// ================================
+// =====================================================
 
 function seleccionarPersonaje(
     genero
 ) {
 
-    if (genero === "hombre") {
+    if (
+        genero !== "hombre" &&
+        genero !== "mujer"
+    ) {
 
-        jugador.genero =
-            "hombre";
-
-        jugador.imagen =
-            "./hombre.jpg";
-
-        jugador.spritesheet =
-            "./mono_N_boy_spritesheet.png";
-
-    } else {
-
-        jugador.genero =
-            "mujer";
-
-        jugador.imagen =
-            "./mujer.jpg";
-
-        jugador.spritesheet =
-            "./mono_N_girl_spritesheet.png";
+        return;
     }
+
+    jugador.genero =
+        genero;
+
+    jugador.imagen =
+        genero === "hombre"
+            ? "./hombre.jpg"
+            : "./mujer.jpg";
+
+    jugador.spritesheet =
+        genero === "hombre"
+            ? "./mono_N_boy_spritesheet.png"
+            : "./mono_N_girl_spritesheet.png";
 
     jugadorSeleccionado =
         jugador;
@@ -359,9 +374,9 @@ function seleccionarPersonaje(
     iniciarZonaGranja();
 }
 
-// ================================
+// =====================================================
 // 💾 CARGAR PERSONAJE
-// ================================
+// =====================================================
 
 function cargarPersonajeGuardado() {
 
@@ -370,8 +385,9 @@ function cargarPersonajeGuardado() {
             "gamerpro_personaje"
         );
 
-    if (!datos)
+    if (!datos) {
         return;
+    }
 
     try {
 
@@ -379,33 +395,26 @@ function cargarPersonajeGuardado() {
             JSON.parse(datos);
 
         if (
-            personaje &&
+            !personaje ||
             (
-                personaje.genero === "hombre" ||
-                personaje.genero === "mujer"
+                personaje.genero !== "hombre" &&
+                personaje.genero !== "mujer"
             )
         ) {
 
-            jugador =
-                personaje;
-
-            if (
-                personaje.genero ===
-                "hombre"
-            ) {
-
-                jugador.spritesheet =
-                    "./mono_N_boy_spritesheet.png";
-
-            } else {
-
-                jugador.spritesheet =
-                    "./mono_N_girl_spritesheet.png";
-            }
-
-            jugadorSeleccionado =
-                jugador;
+            return;
         }
+
+        jugador =
+            personaje;
+
+        jugador.spritesheet =
+            personaje.genero === "hombre"
+                ? "./mono_N_boy_spritesheet.png"
+                : "./mono_N_girl_spritesheet.png";
+
+        jugadorSeleccionado =
+            jugador;
 
     } catch (error) {
 
@@ -418,71 +427,91 @@ function cargarPersonajeGuardado() {
 
 cargarPersonajeGuardado();
 
-// ================================
-// ▶️ PLAY
-// ================================
+// =====================================================
+// ▶️ SECUENCIA PRINCIPAL
+// =====================================================
 
-const playButton =
-    document.getElementById(
-        "playButton"
-    );
+let secuenciaIniciada = false;
 
-playButton.addEventListener(
-    "click",
-    () => {
+function iniciarJuego() {
 
-        let indice = 0;
-
-        mostrarEscena(
-            indice
-        );
-
-        const intervalo =
-            setInterval(() => {
-
-                indice++;
-
-                if (
-                    indice <
-                    escenas.length
-                ) {
-
-                    mostrarEscena(
-                        indice
-                    );
-
-                } else {
-
-                    clearInterval(
-                        intervalo
-                    );
-
-                    setTimeout(() => {
-
-                        revelarHuevo();
-
-                        setTimeout(() => {
-
-                            mostrarSeleccionPersonaje();
-
-                        }, 3000);
-
-                    }, 1500);
-                }
-
-            }, 3000);
+    if (secuenciaIniciada) {
+        return;
     }
-);
+
+    secuenciaIniciada = true;
+
+    let indice = 0;
+
+    mostrarEscena(indice);
+
+    const intervalo =
+        setInterval(() => {
+
+            indice++;
+
+            if (
+                indice < escenas.length
+            ) {
+
+                mostrarEscena(indice);
+
+                return;
+            }
+
+            clearInterval(intervalo);
+
+            setTimeout(() => {
+
+                revelarHuevo();
+
+                setTimeout(() => {
+
+                    secuenciaIniciada =
+                        false;
+
+                    mostrarSeleccionPersonaje();
+
+                }, 3000);
+
+            }, 1500);
+
+        }, 3000);
+}
 
 // =====================================================
-// 🌍 SISTEMA 3D — ZONA GRANJA
+// ▶️ PLAY
+// =====================================================
+
+function configurarPlay() {
+
+    const playButton =
+        document.getElementById(
+            "playButton"
+        );
+
+    if (!playButton) {
+        return;
+    }
+
+    playButton.addEventListener(
+        "click",
+        iniciarJuego
+    );
+}
+
+// =====================================================
+// 🌍 ESTADO 3D
 // =====================================================
 
 let renderer = null;
+
 let scene3D = null;
+
 let camera = null;
 
 let terrain = null;
+
 let playerSprite = null;
 
 let animationFrame = null;
@@ -495,8 +524,11 @@ let teclas = {};
 let movimientoTouch = {
 
     arriba: false,
+
     abajo: false,
+
     izquierda: false,
+
     derecha: false
 };
 
@@ -508,8 +540,17 @@ const playerPosition =
     );
 
 // =====================================================
-// 🎞️ ANIMACIÓN DEL SPRITESHEET
+// 🎞️ SPRITESHEET
 // =====================================================
+
+const SPRITESHEET = {
+
+    columnas: 4,
+
+    filas: 4,
+
+    velocidad: 10
+};
 
 let playerTexture = null;
 
@@ -519,106 +560,77 @@ let playerDirection = 0;
 
 let playerAnimationTimer = 0;
 
-const SPRITESHEET = {
+// =====================================================
+// 🎞️ ACTUALIZAR FRAME
+// =====================================================
 
-    columnas: 4,
-    filas: 4,
+function actualizarFramePlayer() {
 
-    // Fila 0 = frente
-    // Fila 1 = espalda
-    // Fila 2 = izquierda
-    // Fila 3 = derecha
-
-    velocidad: 9
-};
-
-// ================================
-// 🎞️ CAMBIAR FRAME
-// ================================
-
-function actualizarFrameSprite() {
-
-    if (!playerTexture)
-        return;
-
-    const columnas =
-        SPRITESHEET.columnas;
-
-    const filas =
-        SPRITESHEET.filas;
-
-    playerTexture.repeat.set(
-        1 / columnas,
-        1 / filas
-    );
-
-    playerTexture.offset.x =
-        playerFrame / columnas;
-
-    playerTexture.offset.y =
-        1 -
-        (
-            playerDirection + 1
-        ) / filas;
-
-    playerTexture.needsUpdate =
-        true;
-}
-
-// ================================
-// 🎞️ CAMBIAR DIRECCIÓN
-// ================================
-
-function establecerDireccion(
-    direccion
-) {
-
-    if (
-        playerDirection ===
-        direccion
-    ) {
+    if (!playerTexture) {
         return;
     }
 
-    playerDirection =
-        direccion;
+    playerTexture.repeat.set(
+        0.25,
+        0.25
+    );
 
-    playerFrame = 0;
+    playerTexture.offset.set(
 
-    playerAnimationTimer = 0;
+        playerFrame * 0.25,
 
-    actualizarFrameSprite();
+        1 -
+        (
+            playerDirection + 1
+        ) * 0.25
+    );
 }
 
-// ================================
-// 🎞️ ANIMAR CAMINATA
-// ================================
+// =====================================================
+// 🎞️ ANIMACIÓN
+// =====================================================
 
 function actualizarAnimacionJugador(
     delta,
-    estaMoviendose
+    direccion
 ) {
 
-    if (!playerTexture)
-        return;
+    const moviendo =
+        direccion.lengthSq() > 0;
 
-    if (!estaMoviendose) {
+    if (!moviendo) {
 
         playerFrame = 0;
 
         playerAnimationTimer = 0;
 
-        actualizarFrameSprite();
+        actualizarFramePlayer();
 
         return;
+    }
+
+    if (direccion.z > 0) {
+
+        playerDirection = 0;
+
+    } else if (direccion.z < 0) {
+
+        playerDirection = 1;
+
+    } else if (direccion.x < 0) {
+
+        playerDirection = 2;
+
+    } else if (direccion.x > 0) {
+
+        playerDirection = 3;
     }
 
     playerAnimationTimer +=
         delta;
 
     const intervalo =
-        1 /
-        SPRITESHEET.velocidad;
+        1 / SPRITESHEET.velocidad;
 
     if (
         playerAnimationTimer >=
@@ -631,9 +643,9 @@ function actualizarAnimacionJugador(
             (
                 playerFrame + 1
             ) % SPRITESHEET.columnas;
-
-        actualizarFrameSprite();
     }
+
+    actualizarFramePlayer();
 }
 
 // =====================================================
@@ -643,9 +655,8 @@ function actualizarAnimacionJugador(
 const WORLD = {
 
     width: 80,
-    depth: 60,
 
-    terrainHeight: 2,
+    depth: 60,
 
     playerSpeed: 7,
 
@@ -654,30 +665,36 @@ const WORLD = {
     spawn: {
 
         x: 0,
+
         z: 18
     },
 
     limits: {
 
         minX: -38,
+
         maxX: 38,
 
         minZ: -27,
+
         maxZ: 27
     },
 
     corral: {
 
         minX: -12,
+
         maxX: 12,
 
         minZ: 10,
+
         maxZ: 25
     },
 
     salidaCorral: {
 
         minX: -3,
+
         maxX: 3,
 
         z: 10
@@ -685,12 +702,13 @@ const WORLD = {
 };
 
 // =====================================================
-// 🧱 COLISIONES INVISIBLES
+// 🧱 ESTRUCTURAS
 // =====================================================
 
 const estructuras = [
 
     {
+
         id: "casa",
 
         min: new THREE.Vector3(
@@ -709,6 +727,7 @@ const estructuras = [
     },
 
     {
+
         id: "almacen",
 
         min: new THREE.Vector3(
@@ -727,6 +746,7 @@ const estructuras = [
     },
 
     {
+
         id: "shop",
 
         min: new THREE.Vector3(
@@ -745,6 +765,7 @@ const estructuras = [
     },
 
     {
+
         id: "gallinero",
 
         min: new THREE.Vector3(
@@ -763,23 +784,22 @@ const estructuras = [
     }
 ];
 
-// ================================
-// 🧱 BOX3
-// ================================
+const ESTRUCTURAS =
+    estructuras.map(
+        estructura => ({
 
-function crearBox3(
-    min,
-    max
-) {
+            ...estructura,
 
-    return new THREE.Box3(
-        min.clone(),
-        max.clone()
+            caja: new THREE.Box3(
+                estructura.min.clone(),
+                estructura.max.clone()
+            )
+
+        })
     );
-}
 
 // =====================================================
-// ⛰️ ALTURA DEL TERRENO
+// ⛰️ TERRENO
 // =====================================================
 
 function obtenerAlturaTerreno(
@@ -795,22 +815,22 @@ function obtenerAlturaTerreno(
         z /
         (WORLD.depth / 2);
 
-    const altura =
+    return (
+
         Math.sin(
             distanciaX *
             Math.PI *
             2
-        ) *
-        0.35 +
+        ) * 0.35
+
+        +
 
         Math.cos(
             distanciaZ *
             Math.PI *
             2
-        ) *
-        0.3;
-
-    return altura;
+        ) * 0.3
+    );
 }
 
 // =====================================================
@@ -821,32 +841,33 @@ function obtenerCajaJugador(
     posicion
 ) {
 
-    const ancho = 0.7;
-    const profundidad = 0.7;
-    const altura =
-        WORLD.playerHeight;
+    const ancho = 1.1;
+
+    const profundidad = 1.1;
 
     return new THREE.Box3(
 
         new THREE.Vector3(
+
             posicion.x -
-                ancho / 2,
+            ancho / 2,
 
             posicion.y,
 
             posicion.z -
-                profundidad / 2
+            profundidad / 2
         ),
 
         new THREE.Vector3(
+
             posicion.x +
-                ancho / 2,
+            ancho / 2,
 
             posicion.y +
-                altura,
+            WORLD.playerHeight,
 
             posicion.z +
-                profundidad / 2
+            profundidad / 2
         )
     );
 }
@@ -866,24 +887,19 @@ function colisionaConEstructura(
 
     for (
         const estructura
-        of estructuras
+        of ESTRUCTURAS
     ) {
 
         if (
             !estructura.bloqueada
         ) {
+
             continue;
         }
 
-        const caja =
-            crearBox3(
-                estructura.min,
-                estructura.max
-            );
-
         if (
             cajaJugador.intersectsBox(
-                caja
+                estructura.caja
             )
         ) {
 
@@ -905,16 +921,16 @@ function estaDentroDeLimites(
     return (
 
         posicion.x >=
-            WORLD.limits.minX &&
+        WORLD.limits.minX &&
 
         posicion.x <=
-            WORLD.limits.maxX &&
+        WORLD.limits.maxX &&
 
         posicion.z >=
-            WORLD.limits.minZ &&
+        WORLD.limits.minZ &&
 
         posicion.z <=
-            WORLD.limits.maxZ
+        WORLD.limits.maxZ
     );
 }
 
@@ -926,90 +942,120 @@ function puedeSalirDelCorral(
     posicion
 ) {
 
-    const dentroCorral = (
+    const dentroCorral =
 
         posicion.x >=
-            WORLD.corral.minX &&
+        WORLD.corral.minX &&
 
         posicion.x <=
-            WORLD.corral.maxX &&
+        WORLD.corral.maxX &&
 
         posicion.z >=
-            WORLD.corral.minZ &&
+        WORLD.corral.minZ &&
 
         posicion.z <=
-            WORLD.corral.maxZ
-    );
+        WORLD.corral.maxZ;
 
     if (!dentroCorral) {
 
         return true;
     }
 
-    const porSalida = (
+    const porSalida =
 
         posicion.x >=
-            WORLD.salidaCorral.minX &&
+        WORLD.salidaCorral.minX &&
 
         posicion.x <=
-            WORLD.salidaCorral.maxX &&
+        WORLD.salidaCorral.maxX &&
 
         posicion.z <=
-            WORLD.salidaCorral.z
-    );
+        WORLD.salidaCorral.z;
 
     return porSalida;
-}
-
+    }
 // =====================================================
-// 🧍 CREAR PLAYER CON SPRITESHEET
+// 🧍 CREAR JUGADOR
 // =====================================================
 
 function crearPlayer() {
 
+    if (!jugador.genero) {
+
+        console.warn(
+            "No hay personaje seleccionado."
+        );
+
+        return;
+    }
+
+    const rutaSprite =
+        jugador.spritesheet ||
+        PLAYER_SPRITESHEETS[
+            jugador.genero
+        ];
+
+    if (!rutaSprite) {
+
+        console.error(
+            "No existe spritesheet para:",
+            jugador.genero
+        );
+
+        return;
+    }
+
     const loader =
         new THREE.TextureLoader();
 
-    const ruta =
-        jugador.spritesheet ||
-        (
-            jugador.genero === "mujer"
-                ? "./mono_N_girl_spritesheet.png"
-                : "./mono_N_boy_spritesheet.png"
-        );
-
     playerTexture =
         loader.load(
-            ruta
+            rutaSprite,
+
+            () => {
+
+                actualizarFramePlayer();
+            },
+
+            undefined,
+
+            error => {
+
+                console.error(
+                    "No se pudo cargar el spritesheet:",
+                    rutaSprite,
+                    error
+                );
+            }
         );
 
     playerTexture.colorSpace =
         THREE.SRGBColorSpace;
 
-    // ============================
-    // 🎞️ 4×4
-    // ============================
+    playerTexture.wrapS =
+        THREE.ClampToEdgeWrapping;
 
-    playerTexture.repeat.set(
-        1 / SPRITESHEET.columnas,
-        1 / SPRITESHEET.filas
-    );
+    playerTexture.wrapT =
+        THREE.ClampToEdgeWrapping;
 
-    playerTexture.offset.set(
-        0,
-        1 -
-            (
-                playerDirection + 1
-            ) /
-            SPRITESHEET.filas
-    );
-
-    // Evita mezclar bordes entre frames
     playerTexture.magFilter =
         THREE.NearestFilter;
 
     playerTexture.minFilter =
         THREE.NearestFilter;
+
+    playerTexture.repeat.set(
+        0.25,
+        0.25
+    );
+
+    playerFrame = 0;
+
+    playerDirection = 0;
+
+    playerAnimationTimer = 0;
+
+    actualizarFramePlayer();
 
     const material =
         new THREE.SpriteMaterial({
@@ -1048,28 +1094,26 @@ function crearPlayer() {
         WORLD.spawn.z
     );
 
-    playerSprite.position.copy(
-        playerPosition
-    );
+    playerSprite.position.set(
 
-    playerSprite.position.y +=
-        2.5;
+        playerPosition.x,
+
+        playerPosition.y +
+        WORLD.playerHeight / 2,
+
+        playerPosition.z
+    );
 
     scene3D.add(
         playerSprite
     );
-
-    actualizarFrameSprite();
 }
 
 // =====================================================
-// 🌾 TERRENO
+// 🌾 CREAR TERRENO
 // =====================================================
 
 function crearTerreno() {
-
-    const segmentosX = 60;
-    const segmentosZ = 50;
 
     const geometry =
         new THREE.PlaneGeometry(
@@ -1078,9 +1122,9 @@ function crearTerreno() {
 
             WORLD.depth,
 
-            segmentosX,
+            40,
 
-            segmentosZ
+            30
         );
 
     geometry.rotateX(
@@ -1113,14 +1157,19 @@ function crearTerreno() {
         );
     }
 
+    posiciones.needsUpdate =
+        true;
+
     geometry.computeVertexNormals();
 
     const material =
         new THREE.MeshStandardMaterial({
 
-            color: 0x6b8e23,
+            color: 0x6fa35c,
 
-            roughness: 1
+            roughness: 1,
+
+            metalness: 0
         });
 
     terrain =
@@ -1138,414 +1187,7 @@ function crearTerreno() {
 }
 
 // =====================================================
-// 🌾 REFERENCIA VISUAL
-// =====================================================
-
-function crearReferenciaVisualGranja() {
-
-    const textura =
-        new THREE.TextureLoader()
-            .load(
-                ZONAS.granja.imagen
-            );
-
-    textura.colorSpace =
-        THREE.SRGBColorSpace;
-
-    const material =
-        new THREE.MeshBasicMaterial({
-
-            map: textura,
-
-            transparent: true,
-
-            depthWrite: false
-        });
-
-    const geometry =
-        new THREE.PlaneGeometry(
-            38,
-            22
-        );
-
-    const mapa =
-        new THREE.Mesh(
-            geometry,
-            material
-        );
-
-    mapa.rotation.x =
-        -Math.PI / 2;
-
-    mapa.position.set(
-        0,
-        0.08,
-        -27
-    );
-
-    scene3D.add(mapa);
-        }
-// =====================================================
-// 💡 ILUMINACIÓN
-// =====================================================
-
-function crearIluminacion() {
-
-    const luzAmbiente =
-        new THREE.HemisphereLight(
-            0xffffff,
-            0x557755,
-            1.8
-        );
-
-    scene3D.add(luzAmbiente);
-
-    const luzSol =
-        new THREE.DirectionalLight(
-            0xffffff,
-            2
-        );
-
-    luzSol.position.set(
-        20,
-        35,
-        15
-    );
-
-    scene3D.add(luzSol);
-}
-
-
-// =====================================================
-// 🐔 SPRITES DEL JUGADOR
-// =====================================================
-
-const PLAYER_SPRITESHEETS = {
-
-    hombre:
-        "./mono_N_boy_spritesheet.png",
-
-    mujer:
-        "./mono_N_girl_spritesheet.png"
-};
-
-let playerTexture = null;
-
-let playerFrame = 0;
-
-let playerDirection = 0;
-
-let playerAnimationTimer = 0;
-
-const PLAYER_ANIMATION_FPS = 10;
-
-
-// =====================================================
-// 🎞️ ACTUALIZAR FRAME
-// =====================================================
-
-function actualizarFramePlayer() {
-
-    if (!playerTexture) {
-        return;
-    }
-
-    playerTexture.repeat.set(
-        0.25,
-        0.25
-    );
-
-    playerTexture.offset.set(
-
-        playerFrame * 0.25,
-
-        1 -
-        (playerDirection + 1) * 0.25
-    );
-}
-
-
-// =====================================================
-// 🎞️ ANIMACIÓN DEL JUGADOR
-// =====================================================
-
-function actualizarAnimacionJugador(
-    delta,
-    direccion
-) {
-
-    const moviendo =
-        direccion.lengthSq() > 0;
-
-    if (!moviendo) {
-
-        playerFrame = 0;
-
-        playerAnimationTimer = 0;
-
-        actualizarFramePlayer();
-
-        return;
-    }
-
-
-    // -----------------------------------------
-    // DIRECCIONES
-    // -----------------------------------------
-
-    if (direccion.z > 0) {
-
-        // Frente
-        playerDirection = 0;
-
-    } else if (direccion.z < 0) {
-
-        // Espalda
-        playerDirection = 1;
-
-    } else if (direccion.x < 0) {
-
-        // Izquierda
-        playerDirection = 2;
-
-    } else if (direccion.x > 0) {
-
-        // Derecha
-        playerDirection = 3;
-    }
-
-
-    // -----------------------------------------
-    // CAMBIO DE FRAME
-    // -----------------------------------------
-
-    playerAnimationTimer += delta;
-
-    const intervalo =
-        1 / PLAYER_ANIMATION_FPS;
-
-
-    if (
-        playerAnimationTimer >=
-        intervalo
-    ) {
-
-        playerAnimationTimer = 0;
-
-        playerFrame =
-            (playerFrame + 1) % 4;
-    }
-
-
-    actualizarFramePlayer();
-}
-
-
-// =====================================================
-// 🧍 CREAR JUGADOR
-// =====================================================
-
-function crearPlayer() {
-
-    if (!jugador.genero) {
-
-        console.warn(
-            "No hay género seleccionado."
-        );
-
-        return;
-    }
-
-
-    const rutaSprite =
-        PLAYER_SPRITESHEETS[
-            jugador.genero
-        ];
-
-
-    if (!rutaSprite) {
-
-        console.error(
-            "No existe spritesheet para:",
-            jugador.genero
-        );
-
-        return;
-    }
-
-
-    playerTexture =
-        new THREE.TextureLoader()
-            .load(rutaSprite);
-
-
-    playerTexture.colorSpace =
-        THREE.SRGBColorSpace;
-
-
-    playerTexture.wrapS =
-        THREE.ClampToEdgeWrapping;
-
-    playerTexture.wrapT =
-        THREE.ClampToEdgeWrapping;
-
-
-    // 4 columnas × 4 filas
-    playerTexture.repeat.set(
-        0.25,
-        0.25
-    );
-
-
-    // Primera animación:
-    // frente / frame 0
-
-    playerDirection = 0;
-
-    playerFrame = 0;
-
-    playerTexture.offset.set(
-        0,
-        0.75
-    );
-
-
-    const material =
-        new THREE.SpriteMaterial({
-
-            map: playerTexture,
-
-            transparent: true,
-
-            depthWrite: false
-        });
-
-
-    playerSprite =
-        new THREE.Sprite(
-            material
-        );
-
-
-    playerSprite.scale.set(
-        4,
-        5,
-        1
-    );
-
-
-    playerPosition.set(
-        WORLD.spawn.x,
-        0,
-        WORLD.spawn.z
-    );
-
-
-    playerPosition.y =
-        obtenerAlturaTerreno(
-            playerPosition.x,
-            playerPosition.z
-        );
-
-
-    playerSprite.position.set(
-        playerPosition.x,
-        playerPosition.y +
-        WORLD.playerHeight / 2,
-        playerPosition.z
-    );
-
-
-    scene3D.add(
-        playerSprite
-    );
-}
-
-
-// =====================================================
-// 🌎 TERRENO 3D
-// =====================================================
-
-function crearTerreno() {
-
-    const geometry =
-        new THREE.PlaneGeometry(
-            WORLD.width,
-            WORLD.depth,
-            40,
-            30
-        );
-
-
-    geometry.rotateX(
-        -Math.PI / 2
-    );
-
-
-    const posiciones =
-        geometry.attributes.position;
-
-
-    for (
-        let i = 0;
-        i < posiciones.count;
-        i++
-    ) {
-
-        const x =
-            posiciones.getX(i);
-
-        const z =
-            posiciones.getZ(i);
-
-
-        const y =
-            obtenerAlturaTerreno(
-                x,
-                z
-            );
-
-
-        posiciones.setY(
-            i,
-            y
-        );
-    }
-
-
-    posiciones.needsUpdate = true;
-
-    geometry.computeVertexNormals();
-
-
-    const material =
-        new THREE.MeshStandardMaterial({
-
-            color: 0x6fa35c,
-
-            roughness: 1,
-
-            metalness: 0
-        });
-
-
-    terrain =
-        new THREE.Mesh(
-            geometry,
-            material
-        );
-
-
-    terrain.receiveShadow = true;
-
-    scene3D.add(
-        terrain
-    );
-}
-
-
-// =====================================================
-// 🌾 REFERENCIA VISUAL
+// 🌾 REFERENCIA VISUAL DE LA GRANJA
 // =====================================================
 
 function crearReferenciaVisualGranja() {
@@ -1595,170 +1237,14 @@ function crearReferenciaVisualGranja() {
     );
 }
 
-
 // =====================================================
-// 🚪 SALIDA DEL CORRAL
-// =====================================================
-
-function puedeSalirDelCorral(
-    posicion
-) {
-
-    const dentroCorral =
-
-        posicion.x >=
-            WORLD.corral.minX &&
-
-        posicion.x <=
-            WORLD.corral.maxX &&
-
-        posicion.z >=
-            WORLD.corral.minZ &&
-
-        posicion.z <=
-            WORLD.corral.maxZ;
-
-
-    if (!dentroCorral) {
-
-        return true;
-    }
-
-
-    // Única salida:
-    // parte central inferior
-
-    const estaEnSalida =
-
-        posicion.x >=
-            WORLD.salidaCorral.minX &&
-
-        posicion.x <=
-            WORLD.salidaCorral.maxX &&
-
-        posicion.z <=
-            WORLD.salidaCorral.z;
-
-
-    return estaEnSalida;
-}
-
-
-// =====================================================
-// 📦 CAJA DEL JUGADOR
-// =====================================================
-
-function obtenerCajaJugador(
-    posicion
-) {
-
-    const ancho = 1.1;
-
-    const profundidad = 1.1;
-
-
-    return new THREE.Box3(
-
-        new THREE.Vector3(
-
-            posicion.x -
-            ancho / 2,
-
-            posicion.y,
-
-            posicion.z -
-            profundidad / 2
-        ),
-
-        new THREE.Vector3(
-
-            posicion.x +
-            ancho / 2,
-
-            posicion.y +
-            WORLD.playerHeight,
-
-            posicion.z +
-            profundidad / 2
-        )
-    );
-}
-
-
-// =====================================================
-// 🏠 COLISIONES
-// =====================================================
-
-function colisionaConEstructura(
-    posicion
-) {
-
-    const cajaJugador =
-        obtenerCajaJugador(
-            posicion
-        );
-
-
-    for (
-        const estructura
-        of ESTRUCTURAS
-    ) {
-
-        if (
-            estructura.bloqueada &&
-            estructura.caja
-        ) {
-
-            if (
-                cajaJugador.intersectsBox(
-                    estructura.caja
-                )
-            ) {
-
-                return true;
-            }
-        }
-    }
-
-
-    return false;
-}
-
-
-// =====================================================
-// 🧭 LÍMITES DEL MUNDO
-// =====================================================
-
-function estaDentroDeLimites(
-    posicion
-) {
-
-    return (
-
-        posicion.x >=
-            WORLD.limits.minX &&
-
-        posicion.x <=
-            WORLD.limits.maxX &&
-
-        posicion.z >=
-            WORLD.limits.minZ &&
-
-        posicion.z <=
-            WORLD.limits.maxZ
-    );
-}
-
-
-// =====================================================
-// 🎮 DIRECCIÓN DE MOVIMIENTO
+// 🎮 DIRECCIÓN
 // =====================================================
 
 function obtenerDireccionMovimiento() {
 
     const direccion =
         new THREE.Vector3();
-
 
     if (
         teclas["w"] ||
@@ -1769,7 +1255,6 @@ function obtenerDireccionMovimiento() {
         direccion.z += 1;
     }
 
-
     if (
         teclas["s"] ||
         teclas["arrowdown"] ||
@@ -1778,7 +1263,6 @@ function obtenerDireccionMovimiento() {
 
         direccion.z -= 1;
     }
-
 
     if (
         teclas["a"] ||
@@ -1789,7 +1273,6 @@ function obtenerDireccionMovimiento() {
         direccion.x -= 1;
     }
 
-
     if (
         teclas["d"] ||
         teclas["arrowright"] ||
@@ -1799,7 +1282,6 @@ function obtenerDireccionMovimiento() {
         direccion.x += 1;
     }
 
-
     if (
         direccion.lengthSq() > 0
     ) {
@@ -1807,10 +1289,8 @@ function obtenerDireccionMovimiento() {
         direccion.normalize();
     }
 
-
     return direccion;
 }
-
 
 // =====================================================
 // 🏃 ACTUALIZAR JUGADOR
@@ -1824,16 +1304,13 @@ function actualizarJugador(
         return;
     }
 
-
     const direccion =
         obtenerDireccionMovimiento();
-
 
     actualizarAnimacionJugador(
         delta,
         direccion
     );
-
 
     if (
         direccion.lengthSq() === 0
@@ -1842,26 +1319,18 @@ function actualizarJugador(
         return;
     }
 
-
     const nuevaPosicion =
         playerPosition.clone();
-
 
     nuevaPosicion.x +=
         direccion.x *
         WORLD.playerSpeed *
         delta;
 
-
     nuevaPosicion.z +=
         direccion.z *
         WORLD.playerSpeed *
         delta;
-
-
-    // -----------------------------------------
-    // LÍMITES
-    // -----------------------------------------
 
     if (
         !estaDentroDeLimites(
@@ -1872,11 +1341,6 @@ function actualizarJugador(
         return;
     }
 
-
-    // -----------------------------------------
-    // SALIDA DEL CORRAL
-    // -----------------------------------------
-
     if (
         !puedeSalirDelCorral(
             nuevaPosicion
@@ -1885,11 +1349,6 @@ function actualizarJugador(
 
         return;
     }
-
-
-    // -----------------------------------------
-    // ESTRUCTURAS
-    // -----------------------------------------
 
     if (
         colisionaConEstructura(
@@ -1900,18 +1359,15 @@ function actualizarJugador(
         return;
     }
 
-
     playerPosition.copy(
         nuevaPosicion
     );
-
 
     playerPosition.y =
         obtenerAlturaTerreno(
             playerPosition.x,
             playerPosition.z
         );
-
 
     playerSprite.position.set(
 
@@ -1923,7 +1379,6 @@ function actualizarJugador(
         playerPosition.z
     );
 }
-
 
 // =====================================================
 // 🎥 CÁMARA
@@ -1939,7 +1394,6 @@ function actualizarCamara() {
         return;
     }
 
-
     const objetivo =
         new THREE.Vector3(
 
@@ -1949,7 +1403,6 @@ function actualizarCamara() {
 
             playerPosition.z
         );
-
 
     const posicionCamara =
         new THREE.Vector3(
@@ -1961,18 +1414,15 @@ function actualizarCamara() {
             playerPosition.z + 22
         );
 
-
     camera.position.lerp(
         posicionCamara,
         0.08
     );
 
-
     camera.lookAt(
         objetivo
     );
 }
-
 
 // =====================================================
 // ⌨️ TECLADO
@@ -1982,13 +1432,12 @@ function configurarTeclado() {
 
     window.addEventListener(
         "keydown",
-        (event) => {
+        event => {
 
             const tecla =
                 event.key.toLowerCase();
 
             teclas[tecla] = true;
-
 
             if (
                 [
@@ -2008,10 +1457,9 @@ function configurarTeclado() {
         }
     );
 
-
     window.addEventListener(
         "keyup",
-        (event) => {
+        event => {
 
             const tecla =
                 event.key.toLowerCase();
@@ -2021,60 +1469,68 @@ function configurarTeclado() {
     );
 }
 
-
 // =====================================================
 // 📱 CONTROLES MÓVILES
 // =====================================================
 
 function crearControlesMoviles() {
 
+    const anterior =
+        document.getElementById(
+            "controlesMoviles"
+        );
+
+    if (anterior) {
+
+        anterior.remove();
+    }
+
     const contenedor =
         document.createElement(
             "div"
         );
 
-
     contenedor.id =
         "controlesMoviles";
 
-
     contenedor.innerHTML = `
 
-        <button
-            id="moveUp"
-            type="button"
-        >
-            ▲
-        </button>
+        <div class="dpad">
 
-        <button
-            id="moveLeft"
-            type="button"
-        >
-            ◀
-        </button>
+            <button
+                id="moveUp"
+                type="button"
+            >
+                ▲
+            </button>
 
-        <button
-            id="moveRight"
-            type="button"
-        >
-            ▶
-        </button>
+            <button
+                id="moveLeft"
+                type="button"
+            >
+                ◀
+            </button>
 
-        <button
-            id="moveDown"
-            type="button"
-        >
-            ▼
-        </button>
+            <button
+                id="moveRight"
+                type="button"
+            >
+                ▶
+            </button>
 
+            <button
+                id="moveDown"
+                type="button"
+            >
+                ▼
+            </button>
+
+        </div>
     `;
-
 
     document.body.appendChild(
         contenedor
     );
-
 
     const botones = {
 
@@ -2087,88 +1543,81 @@ function crearControlesMoviles() {
         moveRight: "derecha"
     };
 
+    Object.entries(
+        botones
+    ).forEach(
+        ([id, direccion]) => {
 
-    for (
-        const [id, direccion]
-        of Object.entries(botones)
-    ) {
+            const boton =
+                document.getElementById(
+                    id
+                );
 
-        const boton =
-            document.getElementById(
-                id
+            if (!boton) {
+                return;
+            }
+
+            const activar =
+                event => {
+
+                    event.preventDefault();
+
+                    movimientoTouch[
+                        direccion
+                    ] = true;
+                };
+
+            const desactivar =
+                event => {
+
+                    event.preventDefault();
+
+                    movimientoTouch[
+                        direccion
+                    ] = false;
+                };
+
+            boton.addEventListener(
+                "touchstart",
+                activar,
+                {
+                    passive: false
+                }
             );
 
+            boton.addEventListener(
+                "touchend",
+                desactivar,
+                {
+                    passive: false
+                }
+            );
 
-        const activar = (
-            event
-        ) => {
+            boton.addEventListener(
+                "touchcancel",
+                desactivar,
+                {
+                    passive: false
+                }
+            );
 
-            event.preventDefault();
+            boton.addEventListener(
+                "mousedown",
+                activar
+            );
 
-            movimientoTouch[
-                direccion
-            ] = true;
-        };
+            boton.addEventListener(
+                "mouseup",
+                desactivar
+            );
 
-
-        const desactivar = (
-            event
-        ) => {
-
-            event.preventDefault();
-
-            movimientoTouch[
-                direccion
-            ] = false;
-        };
-
-
-        boton.addEventListener(
-            "touchstart",
-            activar,
-            {
-                passive: false
-            }
-        );
-
-
-        boton.addEventListener(
-            "touchend",
-            desactivar,
-            {
-                passive: false
-            }
-        );
-
-
-        boton.addEventListener(
-            "touchcancel",
-            desactivar,
-            {
-                passive: false
-            }
-        );
-
-
-        boton.addEventListener(
-            "mousedown",
-            activar
-        );
-
-
-        boton.addEventListener(
-            "mouseup",
-            desactivar
-        );
-
-
-        boton.addEventListener(
-            "mouseleave",
-            desactivar
-        );
-    }
+            boton.addEventListener(
+                "mouseleave",
+                desactivar
+            );
+        }
+    );
 }
-
 
 // =====================================================
 // 🖥️ HUD
@@ -2176,15 +1625,23 @@ function crearControlesMoviles() {
 
 function crearHUD() {
 
+    const anterior =
+        document.getElementById(
+            "hudGranja"
+        );
+
+    if (anterior) {
+
+        anterior.remove();
+    }
+
     const hud =
         document.createElement(
             "div"
         );
 
-
     hud.id =
         "hudGranja";
-
 
     hud.innerHTML = `
 
@@ -2192,18 +1649,32 @@ function crearHUD() {
             🌾 GRANJA
         </div>
 
-        <div class="hud-zona">
+        <button
+            id="abrirGallinero"
+            type="button"
+            class="hud-gallinero"
+        >
             🐔 Gallinero
-        </div>
-
+        </button>
     `;
-
 
     document.body.appendChild(
         hud
     );
-}
 
+    const boton =
+        document.getElementById(
+            "abrirGallinero"
+        );
+
+    if (boton) {
+
+        boton.addEventListener(
+            "click",
+            mostrarGallinero
+        );
+    }
+}
 
 // =====================================================
 // 🎞️ ANIMACIÓN PRINCIPAL
@@ -2216,23 +1687,23 @@ function animarMundo() {
             animarMundo
         );
 
-
     const delta =
         Math.min(
             reloj.getDelta(),
             0.05
         );
 
-
     actualizarJugador(
         delta
     );
 
-
     actualizarCamara();
 
-
-    if (renderer) {
+    if (
+        renderer &&
+        scene3D &&
+        camera
+    ) {
 
         renderer.render(
             scene3D,
@@ -2241,9 +1712,8 @@ function animarMundo() {
     }
 }
 
-
 // =====================================================
-// 🌎 INICIAR MUNDO
+// 🌎 INICIAR GRANJA
 // =====================================================
 
 function iniciarZonaGranja() {
@@ -2253,11 +1723,19 @@ function iniciarZonaGranja() {
             "mundo3D"
         );
 
+    const inicio =
+        document.getElementById(
+            "inicio"
+        );
 
     if (!contenedor) {
+
+        console.error(
+            "No existe #mundo3D."
+        );
+
         return;
     }
-
 
     if (animationFrame) {
 
@@ -2268,19 +1746,49 @@ function iniciarZonaGranja() {
         animationFrame = null;
     }
 
+    if (inicio) {
 
-    contenedor.innerHTML = "";
+        inicio.style.display =
+            "none";
+    }
 
+    const seleccion =
+        document.getElementById(
+            "seleccionPersonaje"
+        );
+
+    if (seleccion) {
+
+        seleccion.remove();
+    }
+
+    const gallinero =
+        document.getElementById(
+            "gallinero"
+        );
+
+    if (gallinero) {
+
+        gallinero.style.display =
+            "none";
+
+        gallinero.innerHTML =
+            "";
+    }
+
+    contenedor.style.display =
+        "block";
+
+    contenedor.innerHTML =
+        "";
 
     scene3D =
         new THREE.Scene();
-
 
     scene3D.background =
         new THREE.Color(
             0x87b8e8
         );
-
 
     camera =
         new THREE.PerspectiveCamera(
@@ -2295,15 +1803,13 @@ function iniciarZonaGranja() {
             200
         );
 
-
     renderer =
         new THREE.WebGLRenderer({
 
             antialias: true,
 
-            alpha: true
+            alpha: false
         });
-
 
     renderer.setPixelRatio(
         Math.min(
@@ -2312,19 +1818,18 @@ function iniciarZonaGranja() {
         )
     );
 
-
     renderer.setSize(
-
         window.innerWidth,
-
         window.innerHeight
     );
-
 
     contenedor.appendChild(
         renderer.domElement
     );
 
+    playerSprite = null;
+
+    playerTexture = null;
 
     crearTerreno();
 
@@ -2338,14 +1843,49 @@ function iniciarZonaGranja() {
 
     crearControlesMoviles();
 
-    configurarTeclado();
-
-
     reloj.start();
 
     animarMundo();
 }
 
+// =====================================================
+// 💡 ILUMINACIÓN
+// =====================================================
+
+function crearIluminacion() {
+
+    const luzAmbiente =
+        new THREE.HemisphereLight(
+
+            0xffffff,
+
+            0x557755,
+
+            1.8
+        );
+
+    scene3D.add(
+        luzAmbiente
+    );
+
+    const luzSol =
+        new THREE.DirectionalLight(
+
+            0xffffff,
+
+            2
+        );
+
+    luzSol.position.set(
+        20,
+        35,
+        15
+    );
+
+    scene3D.add(
+        luzSol
+    );
+}
 
 // =====================================================
 // 🐔 GALLINERO
@@ -2379,10 +1919,8 @@ const NIDOS = [
     { id: 20, x: 70, y: 92 }
 ];
 
-
 let nidoSeleccionado =
     null;
-
 
 // =====================================================
 // 🐔 MOSTRAR GALLINERO
@@ -2395,11 +1933,12 @@ function mostrarGallinero() {
             "gallinero"
         );
 
-
     if (!gallinero) {
         return;
     }
 
+    gallinero.style.display =
+        "block";
 
     gallinero.innerHTML = `
 
@@ -2408,15 +1947,60 @@ function mostrarGallinero() {
             <img
                 src="./11.jpg"
                 alt="Gallinero"
+                decoding="async"
             >
 
             <div id="nidos"></div>
 
         </div>
+
+        <button
+            id="cerrarGallinero"
+            type="button"
+            class="cerrar-gallinero"
+        >
+            ✕
+        </button>
     `;
 
-
     crearNidos();
+
+    const cerrar =
+        document.getElementById(
+            "cerrarGallinero"
+        );
+
+    if (cerrar) {
+
+        cerrar.addEventListener(
+            "click",
+            cerrarGallinero
+        );
+    }
+}
+
+// =====================================================
+// ❌ CERRAR GALLINERO
+// =====================================================
+
+function cerrarGallinero() {
+
+    const gallinero =
+        document.getElementById(
+            "gallinero"
+        );
+
+    if (!gallinero) {
+        return;
+    }
+
+    gallinero.style.display =
+        "none";
+
+    gallinero.innerHTML =
+        "";
+
+    cerrarEditorNido();
 }
 
 // =====================================================
@@ -2430,53 +2014,43 @@ function crearNidos() {
             "nidos"
         );
 
-
     if (!contenedor) {
         return;
     }
 
-
     NIDOS.forEach(
-        (nido) => {
+        nido => {
 
             const boton =
                 document.createElement(
                     "button"
                 );
 
-
             boton.type =
                 "button";
-
 
             boton.className =
                 "nido";
 
-
             boton.dataset.id =
                 nido.id;
-
 
             boton.style.left =
                 `${nido.x}%`;
 
-
             boton.style.top =
                 `${nido.y}%`;
-
 
             const guardado =
                 localStorage.getItem(
                     `gamerpro_nido_${nido.id}`
                 );
 
-
             if (guardado) {
 
                 boton.style.boxShadow =
                     `0 0 20px ${guardado}`;
             }
-
 
             boton.addEventListener(
                 "click",
@@ -2488,7 +2062,6 @@ function crearNidos() {
                 }
             );
 
-
             contenedor.appendChild(
                 boton
             );
@@ -2496,9 +2069,233 @@ function crearNidos() {
     );
 }
 
-
 // =====================================================
 // 🎨 EDITOR DE NIDO
+// =====================================================
+
+function crearEditorNido() {
+
+    const anterior =
+        document.getElementById(
+            "editorNido"
+        );
+
+    if (anterior) {
+
+        anterior.remove();
+    }
+
+    const editor =
+        document.createElement(
+            "div"
+        );
+
+    editor.id =
+        "editorNido";
+
+    editor.innerHTML = `
+
+        <div class="editor-panel">
+
+            <div class="editor-header">
+
+                <div>
+
+                    <span class="editor-icon">
+                        🪹
+                    </span>
+
+                    <div>
+
+                        <h2>
+                            Editor de nido
+                        </h2>
+
+                        <p>
+                            Personaliza tu nido
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <button
+                    type="button"
+                    class="editor-x"
+                    id="cerrarEditor"
+                >
+                    ✕
+                </button>
+
+            </div>
+
+            <div class="editor-preview">
+
+                <div
+                    class="preview-nido"
+                    id="previewNido"
+                >
+                    🪹
+                </div>
+
+            </div>
+
+            <div class="editor-section">
+
+                <h3>
+                    🎨 Color
+                </h3>
+
+                <div class="colores">
+
+                    <button
+                        type="button"
+                        class="color-option"
+                        data-color="#ffffff"
+                        style="color:#ffffff;"
+                    ></button>
+
+                    <button
+                        type="button"
+                        class="color-option"
+                        data-color="#ff4d4d"
+                        style="color:#ff4d4d;"
+                    ></button>
+
+                    <button
+                        type="button"
+                        class="color-option"
+                        data-color="#4da6ff"
+                        style="color:#4da6ff;"
+                    ></button>
+
+                    <button
+                        type="button"
+                        class="color-option"
+                        data-color="#4dff88"
+                        style="color:#4dff88;"
+                    ></button>
+
+                    <button
+                        type="button"
+                        class="color-option"
+                        data-color="#ffd84d"
+                        style="color:#ffd84d;"
+                    ></button>
+
+                    <button
+                        type="button"
+                        class="color-option"
+                        data-color="#c44dff"
+                        style="color:#c44dff;"
+                    ></button>
+
+                </div>
+
+            </div>
+
+            <div class="editor-info">
+
+                <div>
+
+                    <span>🥚</span>
+
+                    <strong>
+                        Nido
+                    </strong>
+
+                    <small>
+                        Personalizable
+                    </small>
+
+                </div>
+
+                <div>
+
+                    <span>🐔</span>
+
+                    <strong>
+                        Gallinero
+                    </strong>
+
+                    <small>
+                        Espacio de cría
+                    </small>
+
+                </div>
+
+            </div>
+
+            <div class="editor-actions">
+
+                <button
+                    type="button"
+                    class="btn-cancelar"
+                    id="cancelarEditor"
+                >
+                    Cerrar
+                </button>
+
+                <button
+                    type="button"
+                    class="btn-guardar"
+                    id="guardarEditor"
+                >
+                    Guardar
+                </button>
+
+            </div>
+
+        </div>
+    `;
+
+    document.body.appendChild(
+        editor
+    );
+
+    document
+        .getElementById("cerrarEditor")
+        ?.addEventListener(
+            "click",
+            cerrarEditorNido
+        );
+
+    document
+        .getElementById("cancelarEditor")
+        ?.addEventListener(
+            "click",
+            cerrarEditorNido
+        );
+
+    document
+        .getElementById("guardarEditor")
+        ?.addEventListener(
+            "click",
+            cerrarEditorNido
+        );
+
+    document
+        .querySelectorAll(
+            ".color-option"
+        )
+        .forEach(
+            boton => {
+
+                boton.addEventListener(
+                    "click",
+                    () => {
+
+                        cambiarColorNido(
+                            boton.dataset.color
+                        );
+                    }
+                );
+            }
+        );
+}
+
+// =====================================================
+// 🎨 ABRIR EDITOR
 // =====================================================
 
 function abrirEditorNido(id) {
@@ -2506,56 +2303,60 @@ function abrirEditorNido(id) {
     nidoSeleccionado =
         id;
 
+    crearEditorNido();
 
     const editor =
         document.getElementById(
             "editorNido"
         );
 
+    if (editor) {
 
-    if (!editor) {
-        return;
+        editor.classList.add(
+            "activo"
+        );
     }
-
-
-    editor.classList.add(
-        "activo"
-    );
 }
 
-
 // =====================================================
-// 🎨 CAMBIAR COLOR DEL NIDO
+// 🎨 CAMBIAR COLOR
 // =====================================================
 
-function cambiarColorNido(color) {
+function cambiarColorNido(
+    color
+) {
 
     if (!nidoSeleccionado) {
         return;
     }
-
 
     const boton =
         document.querySelector(
             `.nido[data-id="${nidoSeleccionado}"]`
         );
 
+    const preview =
+        document.getElementById(
+            "previewNido"
+        );
 
-    if (!boton) {
-        return;
+    if (boton) {
+
+        boton.style.boxShadow =
+            `0 0 20px ${color}`;
+
+        localStorage.setItem(
+            `gamerpro_nido_${nidoSeleccionado}`,
+            color
+        );
     }
 
+    if (preview) {
 
-    boton.style.boxShadow =
-        `0 0 20px ${color}`;
-
-
-    localStorage.setItem(
-        `gamerpro_nido_${nidoSeleccionado}`,
-        color
-    );
+        preview.style.boxShadow =
+            `0 0 25px ${color}`;
+    }
 }
-
 
 // =====================================================
 // ❌ CERRAR EDITOR
@@ -2568,21 +2369,69 @@ function cerrarEditorNido() {
             "editorNido"
         );
 
+    if (editor) {
 
-    if (!editor) {
-        return;
+        editor.remove();
     }
-
-
-    editor.classList.remove(
-        "activo"
-    );
-
 
     nidoSeleccionado =
         null;
 }
 
+// =====================================================
+// 📱 RESIZE
+// =====================================================
+
+let resizeConfigurado =
+    false;
+
+function configurarResize() {
+
+    if (resizeConfigurado) {
+        return;
+    }
+
+    resizeConfigurado =
+        true;
+
+    window.addEventListener(
+        "resize",
+        () => {
+
+            if (
+                !camera ||
+                !renderer
+            ) {
+
+                return;
+            }
+
+            camera.aspect =
+                window.innerWidth /
+                window.innerHeight;
+
+            camera.updateProjectionMatrix();
+
+            renderer.setSize(
+                window.innerWidth,
+                window.innerHeight
+            );
+        }
+    );
+}
+
+// =====================================================
+// 📦 SPRITESHEETS
+// =====================================================
+
+const PLAYER_SPRITESHEETS = {
+
+    hombre:
+        "./mono_N_boy_spritesheet.png",
+
+    mujer:
+        "./mono_N_girl_spritesheet.png"
+};
 
 // =====================================================
 // 🚀 INICIALIZACIÓN
@@ -2590,57 +2439,16 @@ function cerrarEditorNido() {
 
 function inicializarJuego() {
 
-    // -----------------------------------------
-    // BOTÓN PLAY
-    // -----------------------------------------
-
-    const playButton =
-        document.getElementById(
-            "playButton"
-        );
-
-
-    if (playButton) {
-
-        playButton.addEventListener(
-            "click",
-            iniciarJuego
-        );
-    }
-
-
-    // -----------------------------------------
-    // PERSONAJE GUARDADO
-    // -----------------------------------------
+    configurarPlay();
 
     cargarPersonajeGuardado();
 
+    configurarTeclado();
 
-    // -----------------------------------------
-    // GALLINERO
-    // -----------------------------------------
-
-    const botonGallinero =
-        document.getElementById(
-            "botonGallinero"
-        );
-
-
-    if (botonGallinero) {
-
-        botonGallinero.addEventListener(
-            "click",
-            mostrarGallinero
-        );
-    }
+    configurarResize();
 }
-
-
-// =====================================================
-// 🎮 INICIAR
-// =====================================================
 
 document.addEventListener(
     "DOMContentLoaded",
     inicializarJuego
-);
+); 
