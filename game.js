@@ -401,32 +401,65 @@ function mostrarSeleccionPersonaje() {
 }
 
 
+// 👤 INICIAR JUEGO
+// =====================================================
+
+function iniciarJuego() {
+
+    if (secuenciaIniciada) {
+        return;
+    }
+
+    secuenciaIniciada = true;
+
+    let indice = 0;
+
+    mostrarEscena(indice);
+
+    const intervalo =
+        setInterval(() => {
+
+            indice++;
+
+            if (
+                indice < escenas.length
+            ) {
+
+                mostrarEscena(indice);
+
+                return;
+            }
+
+            clearInterval(intervalo);
+
+            setTimeout(() => {
+
+                revelarHuevo();
+
+                setTimeout(() => {
+
+                    secuenciaIniciada = false;
+
+                    mostrarSeleccionPersonaje();
+
+                }, 3000);
+
+            }, 1500);
+
+        }, 3000);
+}
+
+
 // 👤 SELECCIONAR PERSONAJE
 // =====================================================
 
 function seleccionarPersonaje(genero) {
 
-    // 🛑 Detener cualquier temporizador pendiente
-    if (intervaloEscenas !== null) {
-        clearInterval(intervaloEscenas);
-        intervaloEscenas = null;
-    }
-
-    if (timeoutRevelacion !== null) {
-        clearTimeout(timeoutRevelacion);
-        timeoutRevelacion = null;
-    }
-
-    if (timeoutSeleccion !== null) {
-        clearTimeout(timeoutSeleccion);
-        timeoutSeleccion = null;
-    }
-
-    // ... el resto de tu función
     if (
         genero !== "hombre" &&
         genero !== "mujer"
     ) {
+
         console.error(
             "Género de personaje inválido:",
             genero
@@ -473,9 +506,11 @@ function seleccionarPersonaje(genero) {
     // 11.jpg
     mostrarGallinero();
 }
+
+
 // =====================================================
 // 💾 CARGAR PERSONAJE
-// =====================================================
+// =========================================================================================================
 
 function cargarPersonajeGuardado() {
 
