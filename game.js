@@ -246,9 +246,17 @@ function revelarHuevo() {
 
 function mostrarSeleccionPersonaje() {
 
-    game.innerHTML = `
+    let seleccion =
+        document.getElementById("seleccionPersonaje");
 
-        <div id="seleccionPersonaje">
+    // Si ya existe, solamente la mostramos
+    if (!seleccion) {
+
+        seleccion = document.createElement("div");
+
+        seleccion.id = "seleccionPersonaje";
+
+        seleccion.innerHTML = `
 
             <div class="selector-panel">
 
@@ -310,48 +318,81 @@ function mostrarSeleccionPersonaje() {
                 </div>
 
             </div>
+        `;
 
-        </div>
-    `;
+        game.appendChild(seleccion);
 
-    const opciones =
-        document.querySelectorAll(
-            ".personaje-opcion"
-        );
+        const opciones =
+            seleccion.querySelectorAll(
+                ".personaje-opcion"
+            );
 
-    opciones.forEach(opcion => {
+        opciones.forEach(opcion => {
 
-        opcion.addEventListener(
-            "click",
-            () => {
+            opcion.addEventListener(
+                "click",
+                () => {
 
-                seleccionarPersonaje(
-                    opcion.dataset.genero
-                );
+                    seleccionarPersonaje(
+                        opcion.dataset.genero
+                    );
 
-            }
-        );
-    });
+                }
+            );
+        });
+    }
+
+    // Ocultar las otras pantallas
+    const inicio =
+        document.getElementById("inicio");
+
+    const cinematico =
+        document.getElementById("cinematico");
+
+    const mundo =
+        document.getElementById("mundo3D");
+
+    const gallinero =
+        document.getElementById("gallinero");
+
+    if (inicio) {
+        inicio.style.display = "none";
+    }
+
+    if (cinematico) {
+        cinematico.style.display = "none";
+    }
+
+    if (mundo) {
+        mundo.style.display = "none";
+    }
+
+    if (gallinero) {
+        gallinero.style.display = "none";
+    }
+
+    seleccion.style.display = "flex";
 }
 
-// =====================================================
+
 // 👤 SELECCIONAR PERSONAJE
 // =====================================================
 
-function seleccionarPersonaje(
-    genero
-) {
+function seleccionarPersonaje(genero) {
 
     if (
         genero !== "hombre" &&
         genero !== "mujer"
     ) {
+        console.error(
+            "Género de personaje inválido:",
+            genero
+        );
 
         return;
     }
 
-    jugador.genero =
-        genero;
+    jugador.genero = genero;
 
     jugador.imagen =
         genero === "hombre"
@@ -363,17 +404,31 @@ function seleccionarPersonaje(
             ? "./mono_N_boy_spritesheet.png"
             : "./mono_N_girl_spritesheet.png";
 
-    jugadorSeleccionado =
-        jugador;
+    jugadorSeleccionado = jugador;
 
     localStorage.setItem(
         "gamerpro_personaje",
         JSON.stringify(jugador)
     );
 
+    console.log(
+        "✅ Personaje seleccionado:",
+        genero
+    );
+
+    // Quitar selección
+    const seleccion =
+        document.getElementById(
+            "seleccionPersonaje"
+        );
+
+    if (seleccion) {
+        seleccion.remove();
+    }
+
+    // Entrar a la granja
     iniciarZonaGranja();
 }
-
 // =====================================================
 // 💾 CARGAR PERSONAJE
 // =====================================================
