@@ -437,23 +437,25 @@ function seleccionarPersonaje(genero) {
         JSON.stringify(jugador)
     );
 
-console.log(
-    "✅ Personaje seleccionado:",
-    genero
-);
-
-// Quitar selección
-const seleccion =
-    document.getElementById(
-        "seleccionPersonaje"
+    console.log(
+        "✅ Personaje seleccionado:",
+        genero
     );
 
-if (seleccion) {
-    seleccion.remove();
-}
+    // Quitar selección
+    const seleccion =
+        document.getElementById(
+            "seleccionPersonaje"
+        );
 
-// Entrar al gallinero inicial (11.jpg)
-mostrarGallinero();
+    if (seleccion) {
+        seleccion.remove();
+    }
+
+    // 🐔 Entrar al gallinero inicial
+    // 11.jpg
+    mostrarGallinero();
+}
 // =====================================================
 // 💾 CARGAR PERSONAJE
 // =====================================================
