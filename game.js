@@ -406,6 +406,23 @@ function mostrarSeleccionPersonaje() {
 
 function seleccionarPersonaje(genero) {
 
+    // 🛑 Detener cualquier temporizador pendiente
+    if (intervaloEscenas !== null) {
+        clearInterval(intervaloEscenas);
+        intervaloEscenas = null;
+    }
+
+    if (timeoutRevelacion !== null) {
+        clearTimeout(timeoutRevelacion);
+        timeoutRevelacion = null;
+    }
+
+    if (timeoutSeleccion !== null) {
+        clearTimeout(timeoutSeleccion);
+        timeoutSeleccion = null;
+    }
+
+    // ... el resto de tu función
     if (
         genero !== "hombre" &&
         genero !== "mujer"
@@ -2518,19 +2535,53 @@ const PLAYER_SPRITESHEETS = {
 // =====================================================
 // 🚀 INICIALIZACIÓN
 // =====================================================
+let timeoutRevelacion = null;
+let timeoutSeleccion = null;
+let intervaloEscenas = null;
+function iniciarJuego() {
 
-function inicializarJuego() {
+    if (secuenciaIniciada) {
+        return;
+    }
 
-    configurarPlay();
+    secuenciaIniciada = true;
 
-    cargarPersonajeGuardado();
+    let indice = 0;
 
-    configurarTeclado();
+    mostrarEscena(indice);
 
-    configurarResize();
+    intervaloEscenas = setInterval(() => {
+
+        indice++;
+
+        if (indice < escenas.length) {
+
+            mostrarEscena(indice);
+
+            return;
+        }
+
+        clearInterval(intervaloEscenas);
+        intervaloEscenas = null;
+
+        timeoutRevelacion = setTimeout(() => {
+
+            revelarHuevo();
+
+            timeoutRevelacion = null;
+
+            timeoutSeleccion = setTimeout(() => {
+
+                timeoutSeleccion = null;
+
+                mostrarSeleccionPersonaje();
+
+                // La secuencia ya terminó.
+                secuenciaIniciada = false;
+
+            }, 3000);
+
+        }, 1500);
+
+    }, 3000);
 }
-
-document.addEventListener(
-    "DOMContentLoaded",
-    inicializarJuego
-); 
